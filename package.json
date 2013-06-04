@@ -1,0 +1,15 @@
+{
+    "name": "multiCloud",
+    "version": "0.0.1",
+    "dependencies": {
+        "request": "2.9.202",
+        "underscore": "1.4.3",
+        "crypto": "0.0.3",
+        "xml2js": "0.2.6"
+    },
+    "devDependencies": {
+        "mocha": "1.6.0",
+        "should": "1.2.0"
+    }
+}
+
