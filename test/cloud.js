@@ -2,9 +2,13 @@ var should = require('should'),
    underscore = require('underscore'),
    execCloudTests = process.env.EXEC_CLOUD_TESTS,
    config = require('../etc/config'),
-   cloud = require('../lib/cloud.js')(config.tunnelingProxyURL);
+   cloud = require('../lib/cloud.js');
+
+cloud.setProxy(config.tunnelingProxyURL);
 
    if (execCloudTests === 'true') {
+
+      
 
       // we intentionally don't receive the vendorsSettings as a whole from
       // etc/config.json, because we want to emphasize the multi cloud

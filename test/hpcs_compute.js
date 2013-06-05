@@ -2,7 +2,9 @@ var should = require('should'),
    underscore = require('underscore'),
    execCloudTests = process.env.EXEC_CLOUD_TESTS,
    config = require('../etc/config'),
-   compute = require('../lib/hpcs_compute.js')(config.tunnelingProxyURL);
+   compute = require('../lib/hpcs_compute.js');
+
+compute.setProxy(config.tunnelingProxyURL);
 
 if (execCloudTests === 'true') {
    describe('checking hpcs-compute atomic lib', function() {
