@@ -2,7 +2,9 @@ var should = require('should'),
    underscore = require('underscore'),
    execCloudTests = process.env.EXEC_CLOUD_TESTS,
    config = require('../etc/config'),
-   ec2 = require('../lib/aws_ec2.js')(config.tunnelingProxyURL);
+   ec2 = require('../lib/aws_ec2.js');
+
+ec2.setProxy(config.tunnelingProxyURL);
 
 if (execCloudTests === 'true') {
 
