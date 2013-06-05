@@ -2,13 +2,11 @@
 A high level library for cloud compute operations that abstracts away differences among multiple cloud providers.
 
 
-
 ## Installing
 The best way to install **CloudBlender**:
 <pre><code>
 npm install cloudBlender
 </code></pre>
-
 
 
 ## Very Easy to Use
@@ -44,7 +42,7 @@ provisioning request. Note that there is no cloud provider API that allows the
 flexibility to create in the same call different configurations such as tags
  and different instanceType. Notice that the region post rate is non standard.
 
-<pre><code>
+```javascript
 var cloud = require('cloudBlender'),
    config = require('../etc/config'), //read credentials from a file or environment variable
                                         instead of hard coding the credentials!
@@ -84,13 +82,11 @@ var cloud = require('cloudBlender'),
          console.log('successfully created nodes', result.nodes);
       }
    });
-</code></pre>
-
+```
 
 
 ## Current Cloud Providers Support
 The current version supports **HPCS-compute** and **AWS-EC2**.
-
 
 
 ## Current Version Supported Operations
@@ -104,12 +100,12 @@ The current version supports the following operations:
 - deleteImage
 
 
-
 ## Additional Information
 - For the **latest updates** follow [@CloudBlender](https://twitter.com/CloudBlender).
 - For more **information, tutorials, and references** on the currently published version, visit [**CloudBlender**](http://somelink@hp.com)
 - [API reference](/docs/Reference.md)
 - For **issues or questions**, please open an issue or ask in twitter.
+
 
 ## License
 We should add the relevant license file here
