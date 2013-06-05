@@ -1,4 +1,4 @@
 node_modules/*
 *.swp
 static-analysis/*
-etc/*
+etc/config.json
