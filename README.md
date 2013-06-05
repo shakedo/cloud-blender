@@ -3,12 +3,14 @@ A high level library for cloud compute operations that abstracts away difference
 
 ## Installing
 The best way to install *cloudBlender*:
-```sh
+<pre><code>
 npm install cloudBlender
-```
+</code></pre>
+
 ## Very easy to use
 Example of how to create multiple nodes with different configurations (tags and instanceType):
-```js
+
+<pre><code>
 var cloud = require('cloudBlender'),
    config = require('../etc/config'), // instead of hard coding the credentials!
    settings = {
@@ -47,7 +49,7 @@ var cloud = require('cloudBlender'),
          console.log('successfully created nodes', result.nodes);
       }
    });
-```
+</code></pre>
 
 ## Getting started guide
 you can find a getting started guide at:
