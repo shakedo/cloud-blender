@@ -13,6 +13,7 @@ npm install cloudBlender
 
 ## Very Easy to Use
 Example of reteriving all the nodes in a region
+
 ```javascript
 var cloud = require('cloudBlender'),
    config = require('../etc/config'), //read credentials from a file or environment variable
@@ -42,6 +43,7 @@ Example of creating multiple nodes with different configurations in the same
 provisioning request. Note that there is no cloud provider API that allows the 
 flexibility to create in the same call different configurations such as tags
  and different instanceType. Notice that the region post rate is non standard.
+
 <pre><code>
 var cloud = require('cloudBlender'),
    config = require('../etc/config'), //read credentials from a file or environment variable
