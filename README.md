@@ -92,7 +92,8 @@ If the user want to supply a vendor specific input, he can pass the vendorSpecif
 The output of the functions is always called result. result contains two outputs:
 
 - result.rawResult(s): The original result(s) from the cloud provider. 
-- result.<outputName>: The unified API output.
+- result.outputName: The unified API output.
+
 This design ensures that if the user is not passing vendorSpecificParams and not looking at result.rawResult(s)
 His code is 100% cross platform.
 The user can still be cross platform if he uses raw results or passing vendor specific parameters, but it is under 
