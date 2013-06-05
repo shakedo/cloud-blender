@@ -13,7 +13,7 @@ npm install cloudBlender
 
 ## Very Easy to Use
 Example of reteriving all the nodes in a region
-<pre><code>
+```javascript
 var cloud = require('cloudBlender'),
    config = require('../etc/config'), //read credentials from a file or environment variable
                                         instead of hard coding the credentials!
@@ -34,8 +34,7 @@ var cloud = require('cloudBlender'),
          console.log('successfully retrieved nodes list', result.nodes);
       }
    });
-</code></pre>
-
+```
 
 
 ## Advanced Use Cases
