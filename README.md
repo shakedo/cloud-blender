@@ -7,7 +7,7 @@ The best way to install *cloudBlender*:
 npm install cloudBlender
 </code></pre>
 
-## Very easy to use
+## Very Easy To Use
 Example of how to create multiple nodes with different configurations (tags and instanceType):
 
 <pre><code>
@@ -57,10 +57,10 @@ http://...
 you can also visit our wiki for full API documentation:
 http://...
 
-## Current cloud providers support
+## Current Cloud Providers Support
 The current version supports *HPCS-compute* and *AWS-EC2*.
 
-## Current version supported operations
+## Current Version Supported Operations
 The current version supports the following operations:
 
 1. createNodes
