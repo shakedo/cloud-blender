@@ -1,5 +1,5 @@
 # CloudBlender
-A high level library for cloud compute operations that abstracts away differences among multiple cloud providers.
+A high level node library for cloud compute operations that abstracts away differences among multiple cloud providers.
 
 
 ## Installing
@@ -10,7 +10,7 @@ npm install cloudBlender
 
 
 ## Very Easy to Use
-Example of reteriving all the nodes in a region
+Example of reteriving all the nodes in a region:
 
 ```javascript
 var cloud = require('cloudBlender'),
@@ -83,6 +83,21 @@ var cloud = require('cloudBlender'),
       }
    });
 ```
+
+
+## Philosophy
+The CloudBlender philosophy is to provide a unified and simple way to work with multiple cloud vendors compute service.
+The user provides the same inputs to every function, regradless the cloud provider choice.
+If the user want to supply a vendor specific input, he can pass the vendorSpecificParams object to the call.
+The output of the functions is always called result. result contains two outputs:
+
+- result.rawResult(s): The original result(s) from the cloud provider. 
+- result.<outputName>: The unified API output.
+
+This design ensures that if the user is not passing vendorSpecificParams and not looking at result.rawResult(s)
+His code is 100% cross platform.
+The user can still be cross platform if he uses raw results or passing vendor specific parameters, but it is under 
+the users responsibilty to verify that.
 
 
 ## Current Cloud Providers Support
