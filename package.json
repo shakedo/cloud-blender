@@ -1,5 +1,5 @@
 {
-    "name": "multiCloud",
+    "name": "cloudBlender",
     "author": "Ofer Eliassaf <ofer.eliassaf@hp.com>",
     "description" : "A high level library for cloud compute operations",
     "version": "0.0.1",
