@@ -51,7 +51,7 @@ var cloud = require('cloudBlender'),
    settings = {
          provider: 'hpcs',
          identitySettings: config.identitySettingsHPCS,
-         computeSettings: config.computeSettingsHPCS //we use us-west-az2 in this example
+         computeSettings: config.computeSettingsHPCS, //we use us-west-az2 in this example
          regionConfiguration: {
             postRatePerMinuteLimits: 200,
          }
