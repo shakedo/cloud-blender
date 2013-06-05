@@ -3,24 +3,38 @@ A high level library for cloud compute operations that abstracts away difference
 
 ## Installing
 The best way to install *cloudBlender*:
-<pre><code>
+```sh
 npm install cloudBlender
-</code></pre>
-
+```
 ## Very easy to use
-<pre><code>
+Example of how to create multiple nodes with different configurations (tags and instanceType):
+```js
 var cloud = require('cloudBlender'),
-   config = require('../etc/config'), // uploads identity settings and compute settings
-   identitySettings = config.identitySettingsHPCS, //don't save it directly in the code
-   computeSettings = config.computeSettingsHPCS,
+   config = require('../etc/config'), // instead of hard coding the credentials!
    settings = {
-         identitySettings: identitySettings,
-         computeSettings: computeSettings,
          provider: 'hpcs',
-         nodeParams: {
-            imageId: 9883, //ubuntu 12.04
-            instanceType: 100, // standard.xlarge
+         identitySettings: config.identitySettingsHPCS,
+         computeSettings: config.computeSettingsHPCS, //we use us-west in this example
+         regionConfiguration: {
+            postRatePerMinuteLimits: 200,
          }
+         servers: [ // notice that we use multiple configurations in the same request
+            {
+               imageId: imageId: 9883, //ubunbtu 12.04
+               instanceType: 100, //xsmall
+               tags: {
+                  description: 'created by cloudBlender mocha test',
+                  logicName: 'machine1'
+               }
+            },
+            {
+               imageId: imageId: 9883, 
+               instanceType: 103, //large
+               tags: {
+                  description: 'created by cloudBlender mocha test',
+                  logicName: 'machine2'
+               }
+            }]
       };
 
    cloud.createNodes(settings, function(error, result) {
@@ -29,11 +43,11 @@ var cloud = require('cloudBlender'),
       }
       else {
          // note that all nodes are currently in ACTIVE state
-         // result.nodes will contain the same fields regardless the cloud provoder
+         // result.nodes will contain the same fields regardless the cloud privider
          console.log('successfully created nodes', result.nodes);
       }
    });
-</code></pre>
+```
 
 ## Getting started guide
 you can find a getting started guide at:
@@ -41,8 +55,11 @@ http://...
 you can also visit our wiki for full API documentation:
 http://...
 
+## Current cloud providers support
+The current version supports *HPCS-compute* and *AWS-EC2*.
+
 ## Current version supported operations
-The current version allows users to work with HPCS-compute and AWS-EC2 and supports the following operations:
+The current version supports the following operations:
 
 1. createNodes
 2. listNodes
