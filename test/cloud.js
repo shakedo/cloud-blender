@@ -124,76 +124,76 @@ cloud.setProxy(config.tunnelingProxyURL);
                });
             });
 
-            it('should create image from a node on ' + vendor.provider, function(done) {
-               var settings = {
-                     identitySettings: vendor.identitySettings,
-                     computeSettings: vendor.computeSettings,
-                     provider: vendor.provider,
-                     imageParams: {
-                        nodeId: vendor.nodeIds[0],
-                        tags: {
-                           'creationDate': new Date(),
-                           'createdFor': 'test purposes',
-                           'logicName': 'dummy-image'
-                        },
-                        vendorSpecificParams: {}
-                     }
-                  };
+            // it('should create image from a node on ' + vendor.provider, function(done) {
+            //    var settings = {
+            //          identitySettings: vendor.identitySettings,
+            //          computeSettings: vendor.computeSettings,
+            //          provider: vendor.provider,
+            //          imageParams: {
+            //             nodeId: vendor.nodeIds[0],
+            //             tags: {
+            //                'creationDate': new Date(),
+            //                'createdFor': 'test purposes',
+            //                'logicName': 'dummy-image'
+            //             },
+            //             vendorSpecificParams: {}
+            //          }
+            //       };
 
-               this.timeout(720000);
+            //    this.timeout(720000);
 
 
-               cloud.createImage(settings, function(error, result) {
-                  should.not.exist(error);
-                  should.exist(result.rawResult);
-                  should.exist(result.imageId);
-                  vendor.createdImageId = result.imageId;
-                  done();
-               });
-            });
+            //    cloud.createImage(settings, function(error, result) {
+            //       should.not.exist(error);
+            //       should.exist(result.rawResult);
+            //       should.exist(result.imageId);
+            //       vendor.createdImageId = result.imageId;
+            //       done();
+            //    });
+            // });
 
-            it('should list images from ' + vendor.provider, function(done) {
-               var settings = {
-                     identitySettings: vendor.identitySettings,
-                     computeSettings: vendor.computeSettings,
-                     provider: vendor.provider
-                  };
+            // it('should list images from ' + vendor.provider, function(done) {
+            //    var settings = {
+            //          identitySettings: vendor.identitySettings,
+            //          computeSettings: vendor.computeSettings,
+            //          provider: vendor.provider
+            //       };
 
-               this.timeout(20000);
-               cloud.listImages(settings, function(error, result) {
-                  var foundImage;
-                  should.not.exist(error);
-                  should.exist(result.rawResult);
+            //    this.timeout(20000);
+            //    cloud.listImages(settings, function(error, result) {
+            //       var foundImage;
+            //       should.not.exist(error);
+            //       should.exist(result.rawResult);
 
-                  foundImage = underscore.find(result.images, function(image) {
-                     return image.id === vendor.createdImageId;
-                  });
-                  should.exist(foundImage);
-                  foundImage.status.should.equal('ACTIVE');
-                  //            console.log(JSON.stringify(result.images, null, '   '));
-                  done();
-               });
-            });
+            //       foundImage = underscore.find(result.images, function(image) {
+            //          return image.id === vendor.createdImageId;
+            //       });
+            //       should.exist(foundImage);
+            //       foundImage.status.should.equal('ACTIVE');
+            //       //            console.log(JSON.stringify(result.images, null, '   '));
+            //       done();
+            //    });
+            // });
 
-            it('should delete image from ' + vendor.provider, function(done) {
-               var settings = {
-                     identitySettings: vendor.identitySettings,
-                     computeSettings: vendor.computeSettings,
-                     provider: vendor.provider,
-                     imageParams: {
-                       imageId: vendor.createdImageId
-                     }
-                  };
+            // it('should delete image from ' + vendor.provider, function(done) {
+            //    var settings = {
+            //          identitySettings: vendor.identitySettings,
+            //          computeSettings: vendor.computeSettings,
+            //          provider: vendor.provider,
+            //          imageParams: {
+            //            imageId: vendor.createdImageId
+            //          }
+            //       };
 
-               //console.log('from test: ' + JSON.stringify(settings, null, '   '));
+            //    //console.log('from test: ' + JSON.stringify(settings, null, '   '));
 
-               this.timeout(50000);
-               cloud.deleteImage(settings, function(error, result) {
-                  should.not.exist(error);
-                  //            console.log(result);
-                  done();
-               });
-            });
+            //    this.timeout(50000);
+            //    cloud.deleteImage(settings, function(error, result) {
+            //       should.not.exist(error);
+            //       //            console.log(result);
+            //       done();
+            //    });
+            // });
 
             it('should delete nodes from ' + vendor.provider, function(done) {
 
@@ -201,7 +201,7 @@ cloud.setProxy(config.tunnelingProxyURL);
                      identitySettings: vendor.identitySettings,
                      computeSettings: vendor.computeSettings,
                      regionConfiguration: g_regionConfiguration,
-                     nodeIds: vendor.nodeIds,
+                     nodesIds: vendor.nodeIds,
                      provider: vendor.provider
                   };
 
