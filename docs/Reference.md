@@ -44,6 +44,7 @@ Retrieves a list of nodes for a given cloud provider's region.
       api calls).
 
 Usage Example:
+
 ```javascript
    var config = require('./etc/config'),
       cloud = require('CloudBlender');
@@ -239,6 +240,7 @@ A cloud provider's specific object that contains the information that is needed
 for authentication.
 
 **hpcs-compute** object contains access and secret keys, tenant id, region name and should look like:
+
 ```javascript
 {
    "auth": {
@@ -253,6 +255,7 @@ for authentication.
 
 ```
 **aws-ec2** object contains access and secret keys and should look like:
+
 ```javascript
 {
    "credentials": { 
@@ -280,6 +283,7 @@ specific region/sub-regions' cloud provider.
 
 **hpcs-compute** object should contain the compute URL (contains region, availability
 zone and tenant id) and should look like:
+
 ```javascript
 {
    "url": "https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/<your tenant id>" // az2 in us west of the given tenant id
@@ -287,6 +291,7 @@ zone and tenant id) and should look like:
 ```
 
 **aws-ec2** object should contain the region/sub-region's name and should look like:
+
 ```javascript
 {
    "region": "us-east-1"
