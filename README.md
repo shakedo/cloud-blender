@@ -118,7 +118,7 @@ The current version supports the following operations:
 ## Additional Information
 - For the **latest updates** follow [@CloudBlender](https://twitter.com/CloudBlender).
 - For more **information, tutorials, and references** on the currently published version, visit [**CloudBlender**](http://somelink@hp.com)
-- [API reference](/docs/Reference.md)
+- [API reference](/projects/TCS/repos/mutlicloud/browse/docs/Reference.md)
 - For **issues or questions**, please open an issue or ask in twitter.
 
 
