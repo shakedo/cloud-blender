@@ -50,7 +50,7 @@ cloud.setProxy(config.tunnelingProxyURL);
                   identitySettings: vendor.identitySettings,
                   computeSettings: vendor.computeSettings,
                   regionConfiguration: g_regionConfiguration,
-                  servers: [{
+                  nodes: [{
                         imageId: vendor.imageId, 
                         instanceType: vendor.instanceType, 
                         tags: {
@@ -79,7 +79,7 @@ cloud.setProxy(config.tunnelingProxyURL);
                   //console.log(nodes);
                   should.not.exist(error);
                   should.exist(nodes);
-                  nodes.length.should.equal(settings.servers.length);
+                  nodes.length.should.equal(settings.nodes.length);
                   should.exist(result.rawResults);
                   underscore.each(nodes, function(node) {
                      vendor.nodeIds.push(node.id);
@@ -201,7 +201,7 @@ cloud.setProxy(config.tunnelingProxyURL);
                      identitySettings: vendor.identitySettings,
                      computeSettings: vendor.computeSettings,
                      regionConfiguration: g_regionConfiguration,
-                     nodeIds: vendor.nodeIds,
+                     nodesIds: vendor.nodeIds,
                      provider: vendor.provider
                   };
 

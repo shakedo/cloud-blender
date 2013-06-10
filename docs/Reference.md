@@ -74,9 +74,9 @@ Creates a list of nodes on a given cloud provider's region.
   [identitySettings](#identitySettings).
   - `computeSettings` An object with the cloud provider's region compute settings as described in 
   [computeSettings](#computeSettings).
-  - `regionConfiguration` The region settings and limitations that should contain:
-    - `postRatePerMinuteLimits` The regions post rate limitation
   - `provider`  "hpcs" for **hpcs-compute** and "aws" for **aws-ec2**
+  - `[regionConfiguration]` An optional object for region settings and limitations that should contain:
+    - `postRatePerMinuteLimits` The regions post rate limitation
   - [`vendorSpecificParams`] - An optional object with keys and values as described in
   [`vendorSpecificParams`](#vendorSpecificParams).
   - `nodes` - an array  of input nodes. Each input contains:
@@ -128,9 +128,9 @@ Deletes a given list of nodes from the cloud provider region
   [identitySettings](#identitySettings).
   - `computeSettings` An object with the cloud provider's region compute settings as described in 
   [computeSettings](#computeSettings).
-  - `regionConfiguration` The region settings and limitations that should contain:
-    - `deleteRatePerMinuteLimits` The regions delete rate limitation
   - `provider`  "hpcs" for **hpcs-compute** and "aws" for **aws-ec2**
+  - `[regionConfiguration]` An optional object for the region settings and limitations that should contain:
+    - `deleteRatePerMinuteLimits` The regions delete rate limitation
   - [`vendorSpecificParams`] - An optional object with keys and values as described in
   [`vendorSpecificParams`](#vendorSpecificParams).
   - `nodesIds` an array of node ids to delete
