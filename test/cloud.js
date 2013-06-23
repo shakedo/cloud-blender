@@ -49,7 +49,7 @@ describe('cloud management tests', function() {
                imageId: region.imageId, 
                instanceType: region.instanceType, 
                tags: {
-                  description: 'created by storm mocha test for libcloud',
+                  description: 'created by cloud blender mocha test for libcloud',
                   logicName: 'createdByStorm'
                },
                keyName: region.keyName
@@ -58,7 +58,7 @@ describe('cloud management tests', function() {
                imageId: region.imageId,
                instanceType: region.instanceType,
                tags: {
-                  description: 'created by storm mocha test',
+                  description: 'created by cloud blender mocha test',
                   jobId: 'jobId-dummy',
                   logicName: 'createdByStorm2'
                },
