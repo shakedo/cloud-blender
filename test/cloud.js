@@ -86,6 +86,24 @@ describe('cloud management tests', function() {
          });
       });
 
+
+      it('should fail to create nodes from non existed image on ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            nodes: [{
+               imageId: 'not-exist', 
+               instanceType: region.instanceType 
+            }]
+         };
+
+         this.timeout(360000);
+         cloud.createNodes(settings, function(error, result) {
+            should.exist(error);
+            done();
+         });
+ 
+      });
+
       it('should list nodes from ' + region.regionContext.getProviderName(), function(done) {
          var settings = {
             regionContext: region.regionContext
@@ -140,6 +158,25 @@ describe('cloud management tests', function() {
          });
       });
 
+
+      it('should fail to create image from a non existed node on ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageParams: {
+               nodeId: 'not-exist'
+            }
+         };
+
+         this.timeout(720000);
+
+         cloud.createImage(settings, function(error, result) {
+            should.exist(error);
+            done();
+         });
+      });
+
+
+
       it('should list images from ' + region.regionContext.getProviderName(), function(done) {
          var settings = {
             regionContext: region.regionContext
@@ -179,6 +216,27 @@ describe('cloud management tests', function() {
          });
       });
 
+
+      it('should fail to delete not existed image from ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageParams: {
+               imageId: 'not-exist'
+            }
+         };
+
+         //console.log('from test: ' + JSON.stringify(settings, null, '   '));
+
+         this.timeout(50000);
+         cloud.deleteImage(settings, function(error, result) {
+            should.exist(error);
+            //            console.log(result);
+            done();
+         });
+      });
+
+
+
       it('should delete nodes from ' + region.regionContext.getProviderName(), function(done) {
          var settings = {
             regionContext: region.regionContext,
@@ -194,6 +252,23 @@ describe('cloud management tests', function() {
             done();
          });
       });
+
+
+      it('should fail to delete not existed nodes from ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            nodesIds: ['not-exist']
+         };
+
+         this.timeout(360000);
+
+         cloud.deleteNodes(settings, function(error, result) {
+            should.exist(error);
+            done();
+         });
+      });
+
+
    }); // each region
 }); // describe
 
