@@ -1,221 +1,199 @@
 var should = require('should'),
    underscore = require('underscore'),
    execCloudTests = process.env.EXEC_CLOUD_TESTS,
-   config = require('../etc/config'),
+   hpcsUSWestAz2Settings = require('../examples/hpcs_uswest_az2'),
+   awsUSEast1Settings = require('../examples/aws_east_1'),
    cloud = require('../lib/cloud.js');
 
-cloud.setProxy(config.tunnelingProxyURL);
+ // in the form of http://proxy.com:8080 - change to your own proxy
+cloud.setProxy(process.env.TUNNELING_PROXY);
 
-   if (execCloudTests === 'true') {
+if (execCloudTests !== 'true') {
+   return;
+}
 
-      
+describe('cloud management tests', function() {
 
-      // we intentionally don't receive the vendorsSettings as a whole from
-      // etc/config.json, because we want to emphasize the multi cloud
-      // operations and because etc/config.json is common for many mocha tests
-      describe('cloud management tests', function() {
+   var regionsSettings = [],
+      regionLimitsConfiguration = {
+         postRatePerMinute: 200,
+         deleteRatePerMinute: 60
+      };
 
-         var vendorsSettings = [], i, length,
-            g_regionConfiguration = {
-                  postRatePerMinuteLimits: 200,
-                  deleteRatePerMinuteLimits: 60
-            };
+   regionsSettings.push({
+      regionContext: cloud.createRegionContext('hpcs', hpcsUSWestAz2Settings, 
+                                               regionLimitsConfiguration),
+      nodeIds: [],
+      createdImageId: '',
+      keyName: 'stormRegion2', // private key - please create you own
+      imageId: 14075, // public fedora on hpc2 uswest az2
+      instanceType: 100 // standard.xsmall
+   });
 
-         vendorsSettings.push({
-            provider: 'hpcs',
-            identitySettings: config.identitySettingsHPCS,
-            computeSettings: config.computeSettingsHPCS,
-            nodeIds: [],
-            createdImageId: '',
-            keyName: config.keyNameHPCS,
-            imageId: config.imageIdHPCS, 
-            instanceType: 100 // standard.xsmall
+   regionsSettings.push({
+      regionContext: cloud.createRegionContext('aws', awsUSEast1Settings, 
+                                               regionLimitsConfiguration),
+      nodeIds: [],
+      createdImageId: '',
+      keyName: 'storm-east1', // private key - please create your own
+      imageId: 'ami-d0f89fb9', // public ubuntu 12.04 i686 on aws east-1 
+      instanceType: 't1.micro'
+   });
+
+   underscore.each(regionsSettings, function(region) {
+
+      it('should create nodes on ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            nodes: [{
+               imageId: region.imageId, 
+               instanceType: region.instanceType, 
+               tags: {
+                  description: 'created by storm mocha test for libcloud',
+                  logicName: 'createdByStorm'
+               },
+               keyName: region.keyName
+            },
+            {
+               imageId: region.imageId,
+               instanceType: region.instanceType,
+               tags: {
+                  description: 'created by storm mocha test',
+                  jobId: 'jobId-dummy',
+                  logicName: 'createdByStorm2'
+               },
+               keyName: region.keyName
+            }]
+         };
+
+         this.timeout(360000);
+
+         cloud.createNodes(settings, function(error, result) {
+            var nodes = result.nodes;
+            //console.log(nodes);
+            should.not.exist(error);
+            should.exist(nodes);
+            nodes.length.should.equal(settings.nodes.length);
+            should.exist(result.rawResults);
+            underscore.each(nodes, function(node) {
+               region.nodeIds.push(node.id);
+               should.exist(node.id);
+               should.exist(node.tags);
+               should.exist(node.tags.logicName);
+               node.status.should.equal('ACTIVE');
+            });
+            done();
          });
+      });
 
-         vendorsSettings.push({
-            provider: 'aws',
-            identitySettings: config.identitySettingsAWS,
-            computeSettings: config.computeSettingsAWS,
-            nodeIds: [],
-            createdImageId: '',
-            keyName: config.keyNameAWS,
-            imageId: config.imageIdAWS,
-            instanceType: 't1.micro'
+      it('should list nodes from ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext
+         };
+
+         this.timeout(360000);
+         cloud.listNodes(settings, function(error, result) {
+            var nodeFound,
+               nodes = result.nodes;
+
+            should.not.exist(error);
+            should.exist(nodes);
+            nodes.length.should.be.above(0);
+            underscore.each(region.nodeIds, function(id) {
+               nodeFound = underscore.find(nodes, function(node) {
+                  return node.id === id;
+               });
+
+               should.exist(result.rawResult);
+               should.exist(nodeFound);
+               should.exist(nodeFound.tags);
+               should.exist(nodeFound.tags.logicName);
+            });
+
+            //            console.log(JSON.stringify(result.rawResult));
+            done();
          });
+      });
 
-         underscore.each(vendorsSettings, function(vendor) {
+      it('should create image from a node on ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageParams: {
+               nodeId: region.nodeIds[0],
+               tags: {
+                  'creationDate': new Date(),
+                  'createdFor': 'test purposes',
+                  'logicName': 'dummy-image'
+               },
+               regionSpecificParams: {}
+            }
+         };
 
-            it('should create nodes on ' + vendor.provider, function(done) {
-               var settings = {
-                  identitySettings: vendor.identitySettings,
-                  computeSettings: vendor.computeSettings,
-                  regionConfiguration: g_regionConfiguration,
-                  nodes: [{
-                        imageId: vendor.imageId, 
-                        instanceType: vendor.instanceType, 
-                        tags: {
-                           description: 'created by storm mocha test for libcloud',
-                           logicName: 'createdByStorm'
-                        },
-                        keyName: vendor.keyName
-                     },
-                     {
-                        imageId: vendor.imageId,
-                        instanceType: vendor.instanceType,
-                        tags: {
-                           description: 'created by storm mocha test',
-                           jobId: 'jobId-dummy',
-                           logicName: 'createdByStorm2'
-                        },
-                        keyName: vendor.keyName
-                     }],
-                     provider: vendor.provider
-                  };
+         this.timeout(720000);
 
-               this.timeout(360000);
+         cloud.createImage(settings, function(error, result) {
+            should.not.exist(error);
+            should.exist(result.rawResult);
+            should.exist(result.imageId);
+            region.createdImageId = result.imageId;
+            done();
+         });
+      });
 
-               cloud.createNodes(settings, function(error, result) {
-                  var nodes = result.nodes;
-                  //console.log(nodes);
-                  should.not.exist(error);
-                  should.exist(nodes);
-                  nodes.length.should.equal(settings.nodes.length);
-                  should.exist(result.rawResults);
-                  underscore.each(nodes, function(node) {
-                     vendor.nodeIds.push(node.id);
-                     should.exist(node.id);
-                     should.exist(node.tags);
-                     should.exist(node.tags.logicName);
-                     node.status.should.equal('ACTIVE');
-                  });
-                  done();
-               });
+      it('should list images from ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext
+         };
+
+         this.timeout(20000);
+         cloud.listImages(settings, function(error, result) {
+            var foundImage;
+            should.not.exist(error);
+            should.exist(result.rawResult);
+
+            foundImage = underscore.find(result.images, function(image) {
+               return image.id === region.createdImageId;
             });
+            should.exist(foundImage);
+            foundImage.status.should.equal('ACTIVE');
+            //            console.log(JSON.stringify(result.images, null, '   '));
+            done();
+         });
+      });
 
-            it('should list nodes from ' + vendor.provider, function(done) {
-               var settings = {
-                     identitySettings: vendor.identitySettings,
-                     computeSettings: vendor.computeSettings,
-                     provider: vendor.provider
-                  };
+      it('should delete image from ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageParams: {
+               imageId: region.createdImageId
+            }
+         };
 
-               this.timeout(360000);
+         //console.log('from test: ' + JSON.stringify(settings, null, '   '));
 
-               cloud.listNodes(settings, function(error, result) {
-                  var nodeFound,
-                     nodes = result.nodes;
+         this.timeout(50000);
+         cloud.deleteImage(settings, function(error, result) {
+            should.not.exist(error);
+            //            console.log(result);
+            done();
+         });
+      });
 
-                  should.not.exist(error);
-                  should.exist(nodes);
-                  nodes.length.should.be.above(0);
-                  underscore.each(vendor.nodeIds, function(id) {
-                     nodeFound = underscore.find(nodes, function(node) {
-                        return node.id === id;
-                     });
+      it('should delete nodes from ' + region.regionContext.getProviderName(), function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            nodesIds: region.nodeIds
+         };
 
-                     should.exist(result.rawResult);
-                     should.exist(nodeFound);
-                     should.exist(nodeFound.tags);
-                     should.exist(nodeFound.tags.logicName);
-                  });
+         this.timeout(360000);
 
-                  //            console.log(JSON.stringify(result.rawResult));
-                  done();
-               });
-            });
-
-            it('should create image from a node on ' + vendor.provider, function(done) {
-               var settings = {
-                     identitySettings: vendor.identitySettings,
-                     computeSettings: vendor.computeSettings,
-                     provider: vendor.provider,
-                     imageParams: {
-                        nodeId: vendor.nodeIds[0],
-                        tags: {
-                           'creationDate': new Date(),
-                           'createdFor': 'test purposes',
-                           'logicName': 'dummy-image'
-                        },
-                        vendorSpecificParams: {}
-                     }
-                  };
-
-               this.timeout(720000);
-
-
-               cloud.createImage(settings, function(error, result) {
-                  should.not.exist(error);
-                  should.exist(result.rawResult);
-                  should.exist(result.imageId);
-                  vendor.createdImageId = result.imageId;
-                  done();
-               });
-            });
-
-            it('should list images from ' + vendor.provider, function(done) {
-               var settings = {
-                     identitySettings: vendor.identitySettings,
-                     computeSettings: vendor.computeSettings,
-                     provider: vendor.provider
-                  };
-
-               this.timeout(20000);
-               cloud.listImages(settings, function(error, result) {
-                  var foundImage;
-                  should.not.exist(error);
-                  should.exist(result.rawResult);
-
-                  foundImage = underscore.find(result.images, function(image) {
-                     return image.id === vendor.createdImageId;
-                  });
-                  should.exist(foundImage);
-                  foundImage.status.should.equal('ACTIVE');
-                  //            console.log(JSON.stringify(result.images, null, '   '));
-                  done();
-               });
-            });
-
-            it('should delete image from ' + vendor.provider, function(done) {
-               var settings = {
-                     identitySettings: vendor.identitySettings,
-                     computeSettings: vendor.computeSettings,
-                     provider: vendor.provider,
-                     imageParams: {
-                       imageId: vendor.createdImageId
-                     }
-                  };
-
-               //console.log('from test: ' + JSON.stringify(settings, null, '   '));
-
-               this.timeout(50000);
-               cloud.deleteImage(settings, function(error, result) {
-                  should.not.exist(error);
-                  //            console.log(result);
-                  done();
-               });
-            });
-
-            it('should delete nodes from ' + vendor.provider, function(done) {
-
-               var settings = {
-                     identitySettings: vendor.identitySettings,
-                     computeSettings: vendor.computeSettings,
-                     regionConfiguration: g_regionConfiguration,
-                     nodesIds: vendor.nodeIds,
-                     provider: vendor.provider
-                  };
-
-               this.timeout(360000);
-
-               cloud.deleteNodes(settings, function(error, result) {
-                  should.not.exist(error);
-                  should.exist(result.result);
-                  should.exist(result.rawResults);
-                  done();
-               });
-            });
-         }); // each vendor
-      }); // describe
-   }
-
+         cloud.deleteNodes(settings, function(error, result) {
+            should.not.exist(error);
+            should.exist(result.result);
+            should.exist(result.rawResults);
+            done();
+         });
+      });
+   }); // each region
+}); // describe
 

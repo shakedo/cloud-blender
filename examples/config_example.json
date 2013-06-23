@@ -1,0 +1,9 @@
+{
+   "accessKey": "<your provider access key here>",
+   "secretKey": "<your provider secret key here>",
+   "region": "<prevoider's region name here>",
+   
+   // fields that are only relevant for hpcs
+   "tenantId": "<your tenant id>",
+   "availabilityZone": "<hpcs availability zone>"
+}

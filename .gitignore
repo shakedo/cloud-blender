@@ -1,4 +1,8 @@
 node_modules/*
 *.swp
+*.swo
 static-analysis/*
-etc/config.json
+examples/config.json
+examples/hpcs_uswest_az2.json
+examples/aws_east_1.json
+
