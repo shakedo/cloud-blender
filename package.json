@@ -1,8 +1,11 @@
 {
     "name": "cloud-blender",
-    "author": "Ofer Eliassaf <ofer.eliassaf@hp.com>",
     "description" : "A high level library for cloud compute operations",
-    "version": "0.0.1",
+    "author": {
+       "name": "Ofer Eliassaf",
+       "email": "ofer.eliassaf@hp.com"
+    },
+    "version": "0.0.2",
     "dependencies": {
         "request": "2.9.202",
         "underscore": "1.4.3",
@@ -12,6 +15,9 @@
     "devDependencies": {
         "mocha": "1.6.0",
         "should": "1.2.0"
-    }
+    },
+    "keywords": [
+       "cloud", "aws", "ec2", "hpcs", "compute", "cross-platform"
+    ]
 }
 
