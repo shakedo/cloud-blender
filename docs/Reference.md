@@ -1,5 +1,4 @@
-# CloudBlender 0.1.x API Reference
-
+# CloudBlender 0.0.x API Reference
 
 - [`listNodes(settings, callback)`](#listNodes)
 - [`createNodes(settings, callback)`](#createNodes)
@@ -8,8 +7,7 @@
 - [`createImage(settings, callback)`](#createImage)
 - [`deleteImage(settings, callback)`](#deleteImage)
 - [`setProxy(proxyUrl)`](#setProxy)
-- [`identitySettings`](#identitySettings)
-- [`computeSettings`](#computeSettings)
+- [`createRegionContext(providerName, regionAuthSettings, regionLimits)`](#createRegionContext)
 - [`vendorSpecificParams`](#vendorSpecificParams)
 
 
@@ -17,11 +15,8 @@
 Retrieves a list of nodes for a given cloud provider's region.
 
 - `settings` - An input object that contains:
-  - `identitySettings` An object with the cloud provider's region credentials as described in 
-  [identitySettings](#identitySettings).
-  - `computeSettings` An object with the cloud provider's region compute settings as described in 
-  [computeSettings](#computeSettings).
-  - `provider`  "hpcs" for **hpcs-compute** and "aws" for **aws-ec2**
+  - `regionContext` An object with the cloud provider's region credentials, settings and limits as described in 
+  [createRegionContext](#createRegionContext).
   - [`vendorSpecificParams`] - An optional object with keys and values as described in
   [`vendorSpecificParams`](#vendorSpecificParams).
 - `callback` - is `function(error, result)` where:
@@ -43,40 +38,12 @@ Retrieves a list of nodes for a given cloud provider's region.
       created in the provisioning request (but may be defined later using currently unsupported 
       api calls).
 
-Usage Example:
-
-```javascript
-   var config = require('./etc/config'),
-      cloud = require('CloudBlender');
-
-   var settings = {
-      identitySettings: config.identitySettings,
-      computeSettings: config.computeSettings,
-      provider: config.provider
-    };
-
-   cloud.listNodes(settings, function(error, result) {
-      if (error) {
-         console.log('error:', error);
-      }
-      else {
-         console.log('nodes are: ', result.nodes);
-      }
-   });
- 
-```
-
 ### `createNodes(settings, callback)`
 Creates a list of nodes on a given cloud provider's region.
 
 - `settings` - An input object that contains:
-  - `identitySettings` An object with the cloud provider's region credentials as described in 
-  [identitySettings](#identitySettings).
-  - `computeSettings` An object with the cloud provider's region compute settings as described in 
-  [computeSettings](#computeSettings).
-  - `provider`  "hpcs" for **hpcs-compute** and "aws" for **aws-ec2**
-  - `[regionConfiguration]` An optional object for region settings and limitations that should contain:
-    - `postRatePerMinuteLimits` The regions post rate limitation
+  - `regionContext` An object with the cloud provider's region credentials, settings and limits as described in 
+  [createRegionContext](#createRegionContext).
   - [`vendorSpecificParams`] - An optional object with keys and values as described in
   [`vendorSpecificParams`](#vendorSpecificParams).
   - `nodes` - an array  of input nodes. Each input contains:
@@ -99,7 +66,7 @@ were loaded, where:
     property). Each node contains:
       - `id` the machine unique identifier of the clod provider.
       - `status` a string representing the node status. **ACTIVE** means running, all other states indicate that the
-      machine is not currently running. Machines that in fail state will have **ERROR_errorType**
+      machine is not currently running. Machines that are in fail state will have **ERROR_errorType**
       - `addresses` an array of IP addresses where addresses[0] holds the private IP address
       and array[1] holds the public address. Notice that for new machines these may be undefined.
       - `tags` - a key pair object storage that will be associated with the node. This object usually 
@@ -124,13 +91,8 @@ it is supported in all cloud vendors.
 Deletes a given list of nodes from the cloud provider region
 
 - `settings` - An input object that contains:
-  - `identitySettings` An object with the cloud provider's region credentials as described in 
-  [identitySettings](#identitySettings).
-  - `computeSettings` An object with the cloud provider's region compute settings as described in 
-  [computeSettings](#computeSettings).
-  - `provider`  "hpcs" for **hpcs-compute** and "aws" for **aws-ec2**
-  - `[regionConfiguration]` An optional object for the region settings and limitations that should contain:
-    - `deleteRatePerMinuteLimits` The regions delete rate limitation
+  - `regionContext` An object with the cloud provider's region credentials, settings and limits as described in 
+  [createRegionContext](#createRegionContext).
   - [`vendorSpecificParams`] - An optional object with keys and values as described in
   [`vendorSpecificParams`](#vendorSpecificParams).
   - `nodesIds` an array of node ids to delete
@@ -145,11 +107,8 @@ deleted, where:
 Retrieves a list of images for a given cloud provider's region.
 
 - `settings` - An input object that contains:
-  - `identitySettings` An object with the cloud provider's region credentials as described in 
-  [identitySettings](#identitySettings).
-  - `computeSettings` An object with the cloud provider's region compute settings as described in 
-  [computeSettings](#computeSettings).
-  - `provider`  "hpcs" for **hpcs-compute** and "aws" for **aws-ec2**
+  - `regionContext` An object with the cloud provider's region credentials, settings and limits as described in 
+  [createRegionContext](#createRegionContext).
   - [`vendorSpecificParams`] - An optional object with keys and values as described in
   [`vendorSpecificParams`](#vendorSpecificParams).
 - `callback` - is `function(error, result)` where:
@@ -168,11 +127,8 @@ Retrieves a list of images for a given cloud provider's region.
 Creates a single image on a given cloud provider's region.
 
 - `settings` - An input object that contains:
-  - `identitySettings` An object with the cloud provider's region credentials as described in 
-  [identitySettings](#identitySettings).
-  - `computeSettings` An object with the cloud provider's region compute settings as described in 
-  [computeSettings](#computeSettings).
-  - `provider`  "hpcs" for **hpcs-compute** and "aws" for **aws-ec2**
+  - `regionContext` An object with the cloud provider's region credentials, settings and limits as described in 
+  [createRegionContext](#createRegionContext).
   - [`vendorSpecificParams`] - An optional object with keys and values as described in
   [`vendorSpecificParams`](#vendorSpecificParams).
   - `imageParams` an object contains the following:
@@ -206,11 +162,8 @@ a new EBS snapshot and a registered AMI.
 Deletes an image from a given cloud provider's region.
 
 - `settings` - An input object that contains:
-  - `identitySettings` An object with the cloud provider's region credentials as described in 
-  [identitySettings](#identitySettings).
-  - `computeSettings` An object with the cloud provider's region compute settings as described in 
-  [computeSettings](#computeSettings).
-  - `provider`  "hpcs" for **hpcs-compute** and "aws" for **aws-ec2**
+  - `regionContext` An object with the cloud provider's region credentials, settings and limits as described in 
+  [createRegionContext](#createRegionContext).
   - [`vendorSpecificParams`] - An optional object with keys and values as described in
   [`vendorSpecificParams`](#vendorSpecificParams).
   - `imageParams` an object contains the following:
@@ -225,84 +178,66 @@ where:
 Few notes:
 
 - On **hpcs-compute** it just deletes the snapshot.
-- On **aws-ec2** it dergisters the AMI and then tries to delete all the EBS snapshots
+- On **aws-ec2** it de registers the AMI and then tries to delete all the EBS snapshots
 that are associated to it. If a given snapshot will be associated to a different AMI during
 the deleteImage call (a thing that can't happen if you are only using **CloudBlender** API to 
 manipulate images), the snapshot will not be deleted and an error will return. Notice that
-the image will still be deregistered in this case.
+the image will still be de registered in this case.
 
 ### `setProxy(proxyUrl)`
 Sets a proxy for outgoing traffic.
-`proxyUrl` a string in the form of http://yourproxy.com:8080
 
-### `identitySettings`
-A cloud provider's specific object that contains the information that is needed 
-for authentication.
+- `proxyUrl` a string in the form of http://yourproxy.com:8080
 
-**hpcs-compute** object contains access and secret keys, tenant id, region name and should look like:
 
-```javascript
-{
-   "auth": {
-      "apiAccessKeyCredentials": {
-         "accessKey": "<your hp access key here>",
-         "secretKey": "<your hp secret key here>"
-      },
-      "tenantId": "<your tenant id>"
-   },
-   "url": "https://<hp region (e.g. region-a.geo-1)>.identity.hpcloudsvc.com:35357/v2.0/tokens"
-}
+### `createRegionContext(providerName, regionAuthSettings, regionLimits)`
+Create a region specific context that allows cloud-blender to authenticate and cache some data
+for optimization purposes. It also contains the region's rate limits so that cloud-blender
+will not exceed them.
 
-```
-**aws-ec2** object contains access and secret keys and should look like:
+- `providerName`: A string containing "hpcs" for **HPCS-compute** or "aws" for **AWS-EC2**"
+- `regionLimits` is an object containing regions rate limits
 
-```javascript
-{
-   "credentials": { 
-      "accessKeyId": "<your aws access key here>",
-      "secretAccessKey": "<your aws secret key here>"
-   }
-}
-```
+   - `postRatePerMinute` A number representing the amount of HTTP POST requests that are
+   allowed per minute in the region.
+   - `deleteRatePerMinut` A number representing the amount of HTTP DELETE requests that are
+   allowed per minute in the region.
+- `regionAuthSettings` - An object containing different set of parameters according to the cloud provider:
 
-Few notes about identification process:
+   - **AWS** the data can be obtained from:
+      http://docs.aws.amazon.com/fws/1.1/GettingStartedGuide/index.html?AWSCredentials.html
+      
+      - `accessKey` AWS access key
+      - `secretKey` AWS secret key
+      - `region` the region
+
+   - **HPCS** the data can be obtained from:
+      https://blog.hpcloud.com/using-hp-cloud-identity-service
+      
+      - `accessKey` HPCS access key
+      - `secretKey` HPCS secret key
+      - `region` HPCS region e.g. region-a.geo-1 for uswest
+      - `availabilityZone` hpcs availability zone inside the region e.g. az-2
+      - `tenantId` hpcs tenant id.
+
+
+Few notes about the identification process:
 
 - on **hpcs**, an identification token must be present in each API call as a HTTP header.
 This token is retrieved by accessing **hpcs-identitifcation service**.
-Before each API call **CloudBlender** checks if such a valid (non expired) token exist in the `identitySettings`,
-and if not it retrieves one and saves it for sequential API calls inside the identitySettings.
+Before each API call **CloudBlender** checks if such a valid (non expired) token exist in the `regionContext`,
+and if not it retrieves one and saves it for sequential API calls inside the `regionContext`.
 Working this way saves many unnecessary calls to the identification service, so the best
-practice is always to use the same `identitySettings` object.
+practice is always to use the same `regionContext` object for the same region.
 
 - **aws-ec2** has no such mechanism, its access and secret keys are used to sign the API
 call and identify the tenant.
-
-### `computeSettings`
-A cloud provider's specific object that contains information on how to work with
-specific region/sub-regions' cloud provider.
-
-**hpcs-compute** object should contain the compute URL (contains region, availability
-zone and tenant id) and should look like:
-
-```javascript
-{
-   "url": "https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/<your tenant id>" // az2 in us west of the given tenant id
-}
-```
-
-**aws-ec2** object should contain the region/sub-region's name and should look like:
-
-```javascript
-{
-   "region": "us-east-1"
-}
-```
 
 ### `vendorSpecificParams`
 The API used by **CloudBlender** can only get inputs that are common to all cloud vendors.
 It is possible, however, to set specific parameter to a specific cloud vendor by passing
 it inside the optional `vendorSpecificParam` object. This object is a key-value store.
-The keyis and values that are in this object will always overwrite the paramters of the 
+The keys and values that are in this object will always overwrite the parameters of the 
 regular inputs.
 Note that when using this object, your code might not be cross platform, so use it carefully.
 
