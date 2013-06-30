@@ -16,6 +16,11 @@
         "mocha": "1.6.0",
         "should": "1.2.0"
     },
+    "scripts": {
+       "test": "node_modules/mocha/bin/mocha -R spec -r should test/cloud.js",
+       "test-atomic-hpcs": "node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute.js",
+       "test-atomic-aws": "node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute.js"
+    },
     "keywords": [
        "cloud", "aws", "ec2", "hpcs", "compute", "cross-platform"
     ]
