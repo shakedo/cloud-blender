@@ -1,22 +1,30 @@
 # Cloud Blender
 A high level node library for cloud compute operations that abstracts away differences among multiple cloud providers.
 
-
 ## Installing
-The best way to install **Cloud Blender**:
 <pre><code>
 npm install cloud-blender
 </code></pre>
 
+## Overview
+Cloud Blender provides a unified way to work with multiple cloud vendor's compute service.
+Cloud Blender works in a real asynchronous manner by having the callbacks called only after all the operations of a single function are 
+completed and not when they accepted.
+You provide generic inputs to every function regardless of the cloud provider. In addition, you can provide cloud specific inputs to use 
+functionality provided by that cloud vendor. 
+The output of the functions consists of unified result and the original raw result from the cloud provider (converted to JSON). 
+This design ensures that if you are not passing specific inputs and not using the raw results, your code is 100% cross platform. 
+You can still accomplish cross platform functionality if you use raw results and are passing vendor specific parameters, 
+however, you must verify it.
 
-## Very Easy to Use
+## Basic Use Case
 Example of retrieving all the nodes in a region:
 
 ```javascript
 var cloud = require('cloud-blender'),
    settings = {
       // This is for demo purposes only! Your credentials should not 
-      // be hard coded, instead consider load them from your envirenmet
+      // be hard coded, instead consider loading them from your environment
       // or from a secured file.
       // Information on how to obtain hp access, secret, tenant id, region and az
       // can be found in https://blog.hpcloud.com/using-hp-cloud-identity-service
@@ -41,12 +49,11 @@ cloud.listNodes(settings, function(error, result) {
 });
 ```
 
-
-## Advanced Use Cases
+## Advanced Use Case
 Example of creating multiple nodes with different configurations in the same
 provisioning request. Note that **Cloud Blender** allows the 
-flexibility to create in the same call different configurations such as tags
- and different instance type. Notice that the region post rate is non standard.
+flexibility to create different configurations such as tags
+ and different instance type in the same call. Note that the region post rate is non standard.
 
 ```javascript
 var cloud = require('cloud-blender'),
@@ -92,20 +99,6 @@ var cloud = require('cloud-blender'),
    });
 ```
 
-## Philosophy
-Cloud Blender's philosophy is to provide a unified and simple way to work with 
-multiple cloud vendors compute service in a real asynchronous manner by having
-the callbacks called only after all the operations of a single function  are 
-completed by the cloud provider back-end and not when they were accepted at the
-cloud provider.
-The user provides the same inputs to every function, regardless the cloud provider choice.
-If the user want to supply a vendor specific input, he can pass the vendorSpecificParams object to the call.
-The output of the functions consist of a unified result and the original raw result from the cloud provider.
-This design ensures that if the user is not passing vendorSpecificParams and not looking at raw result
-His code is 100% cross platform.
-The user can still be cross platform if he uses raw results or passing vendor specific parameters, but it is under 
-the users responsibility to verify that.
-
 
 ## Current Cloud Providers Support
 The current version supports **HPCS-compute** and **AWS-EC2**.
@@ -121,7 +114,7 @@ The current version supports the following operations:
 - [listImage](./docs/Reference.md#listImage)
 - [deleteImage](./docs/Reference.md#deleteImage)
 
-## Contributing
+## Contributions Welcome
 We welcome contributions from the community and are pleased to have them.
 For bugs, enhancement requests and comments please open us issues.
 For code contribution please fork and ask for pull request:
@@ -131,38 +124,30 @@ Make sure not to include your tenant credentials in the source code.
 ## Running Tests
 There are two types of tests:
 
-   - Remote - These tests are actually accessing real cloud so they cost money. The majority
-   of the tests are of this type.
-   - Local - These tests are not accessing real cloud and therefore are not costing money.
+   - Remote: The majority of the validation tests are remote tests. These tests access real cloud services and you will incur a cost to run them.
+   - Local: There are a few validation tests that are local test. These tests are free.
 
-By default for preventing accidentally getting cost,  only local tests are running
-if you want to enable the actual cloud tests set the EXEC_CLOUD_TESTS environment variable 
-to true.
-You can also setup a proxy by setting the environment variable TUNNELING_PROXY to your proxy.
+### How to Run a Test
 
-The tests goes to HPCS US-West-AZ2 and AWS US-East-1. We hard coded some of these regions 
-data (images IDs etc.) in our tests.
-You need to have two configuration files in the ./examples/ directory, these files 
-should include your cloud providers credentials so secure them carefully.
+   - By default, only local test are running. If you want to enable remote tests set the EXEC_CLOUD_TEST environment variable to true. 
+      You can also setup a proxy by setting the environment variable TUNNELING_PROXY to your proxy.
+   - The tests are run on HPCS US-West-AZ2 and AWS-USEast-1. We hard coded certain properties of these regions. 
+      You will need to create two configuration files in which include your credentials.
 
-   - ./examples/hpcs_uswest_az2.json for HPCS US-West-AZ2 credentials.
-   - ./examples/aws_east_1.json for AWS US-EAST-1 credentials.
+      - ./examples/hpcs_uswest_az2.json for HPCS US-West-AZ2 credentials.
+      - ./examples/aws_east_1.json for AWS US-EAST-1 credentials.
 
-These JSONs are simply used as inputs to ``createRegionContext`` function.
-Please look at ./examples/config_example.json for an example.
-Please also create a key pair on each region and hard code it in the test files, where
-keyName is used.
+   These JSONs are used as inputs to the ``createREgionContext`` function. For example, ./examples/config_example.json
+   Please also create a key pair on each region and hard code it in the test files, where
+   keyName is used.
+./examples/config_example.json./examples/config_example.json./examples/config_example.json
 
-After creating the configuration JSON files and setting the environment variables, 
-tests can be run by using:
-
+   - To run the acutual tests:
 ```
 npm run test # Tests public API
 npm run test-atomic-hpcs # Tests HPCS-Compute atomic module
 npm run test-atomic-aws # Tests AWS-EC2 atomic lib
 ``` 
-
-
 
 ## Additional Information
 - For the **latest updates** follow [@CloudBlender](https://twitter.com/CloudBlender).
