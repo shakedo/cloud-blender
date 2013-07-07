@@ -140,7 +140,6 @@ There are two types of tests:
    These JSONs are used as inputs to the ``createREgionContext`` function. For example, ./examples/config_example.json
    Please also create a key pair on each region and hard code it in the test files, where
    keyName is used.
-./examples/config_example.json./examples/config_example.json./examples/config_example.json
 
    - To run the acutual tests:
 ```
