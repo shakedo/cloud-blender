@@ -42,7 +42,7 @@ describe('cloud management tests', function() {
 
    underscore.each(regionsSettings, function(region) {
 
-      it('should create nodes on ' + region.regionContext.getProviderName(), function(done) {
+      it('should create nodes on ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
             nodes: [{
@@ -87,7 +87,7 @@ describe('cloud management tests', function() {
       });
 
 
-      it('should fail to create nodes from non existed image on ' + region.regionContext.getProviderName(), function(done) {
+      it('should fail to create nodes from non existed image on ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
             nodes: [{
@@ -104,7 +104,7 @@ describe('cloud management tests', function() {
  
       });
 
-      it('should list nodes from ' + region.regionContext.getProviderName(), function(done) {
+      it('should list nodes from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext
          };
@@ -133,7 +133,7 @@ describe('cloud management tests', function() {
          });
       });
 
-      it('should create image from a node on ' + region.regionContext.getProviderName(), function(done) {
+      it('should create image from a node on ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
             imageParams: {
@@ -159,7 +159,7 @@ describe('cloud management tests', function() {
       });
 
 
-      it('should fail to create image from a non existed node on ' + region.regionContext.getProviderName(), function(done) {
+      it('should fail to create image from a non existed node on ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
             imageParams: {
@@ -177,7 +177,7 @@ describe('cloud management tests', function() {
 
 
 
-      it('should list images from ' + region.regionContext.getProviderName(), function(done) {
+      it('should list images from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext
          };
@@ -198,7 +198,7 @@ describe('cloud management tests', function() {
          });
       });
 
-      it('should delete image from ' + region.regionContext.getProviderName(), function(done) {
+      it('should delete image from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
             imageParams: {
@@ -217,7 +217,7 @@ describe('cloud management tests', function() {
       });
 
 
-      it('should fail to delete not existed image from ' + region.regionContext.getProviderName(), function(done) {
+      it('should fail to delete not existed image from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
             imageParams: {
@@ -237,7 +237,7 @@ describe('cloud management tests', function() {
 
 
 
-      it('should delete nodes from ' + region.regionContext.getProviderName(), function(done) {
+      it('should delete nodes from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
             nodesIds: region.nodeIds
@@ -254,7 +254,7 @@ describe('cloud management tests', function() {
       });
 
 
-      it('should fail to delete not existed nodes from ' + region.regionContext.getProviderName(), function(done) {
+      it('should fail to delete not existed nodes from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
             nodesIds: ['not-exist']
