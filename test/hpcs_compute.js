@@ -5,7 +5,8 @@ var should = require('should'),
    compute = require('../lib/hpcs_compute.js');
 
  // in the form of http://proxy.com:8080 - change to your own proxy
-compute.setProxy(process.env.TUNNELING_PROXY); 
+compute.setProxy(process.env.TUNNELING_PROXY);
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 describe('checking hpcs-compute local atomic lib', function() {
 

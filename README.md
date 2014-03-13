@@ -129,7 +129,7 @@ There are two types of tests:
 
 ### How to Run a Test
 
-   - By default, only local test are running. If you want to enable remote tests set the EXEC_CLOUD_TEST environment variable to true. 
+   - By default, only local test are running. If you want to enable remote tests set the EXEC_CLOUD_TESTS environment variable to true. 
       You can also setup a proxy by setting the environment variable TUNNELING_PROXY to your proxy.
    - The tests are run on HPCS US-West-AZ2 and AWS-USEast-1. We hard coded certain properties of these regions. 
       You will need to create two configuration files in which include your credentials.
