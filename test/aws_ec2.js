@@ -57,6 +57,7 @@ describe('checking aws-ec2 atomic lib', function() {
             should.exist(result.node);
             should.exist(result.node.id);
             should.exist(result.node.tags);
+            should.exist(result.node.releaseInfo);
             g_node = result.node;
             //console.log(JSON.stringify(result.node, null, '   '));
             done();

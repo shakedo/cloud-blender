@@ -71,7 +71,7 @@ describe('checking hpcs-compute online atomic lib', function() {
             should.exist(result.node.addresses);
             should.exist(result.node.addresses[0]);
             should.exist(result.node.addresses[1]);
-
+            should.exist(result.node.releaseInfo);
             g_node = result.node;
             //console.log(JSON.stringify(result.node, null, '   '));
             done();
