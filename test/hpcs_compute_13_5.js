@@ -1,7 +1,7 @@
 var should = require('should'),
    underscore = require('underscore'),
    execCloudTests = process.env.EXEC_CLOUD_TESTS,
-   hpUSWestSettings = require('../examples/hpcs_uswest_az2_13_5'),
+   hpUSWestSettings = require('../examples/hpcs_uswest_13_5'),
    compute = require('../lib/hpcs_compute_13_5.js');
 
  // in the form of http://proxy.com:8080 - change to your own proxy

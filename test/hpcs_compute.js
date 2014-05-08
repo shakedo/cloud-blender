@@ -33,7 +33,7 @@ if (execCloudTests !== 'true') {
 }
 
 describe('checking hpcs-compute online atomic lib', function() {
-   var g_id = '',
+   var g_node = '',
       g_imageId = '',
       regionContext = compute.createRegionContext(hpUSWestSettings);
 
@@ -67,7 +67,7 @@ describe('checking hpcs-compute online atomic lib', function() {
             should.exist(result.node);
             should.exist(result.node.id);
             should.exist(result.node.tags);
-            g_id = result.node.id;
+            g_node = result.node;
             //console.log(JSON.stringify(result.node, null, '   '));
             done();
          });
@@ -88,7 +88,7 @@ describe('checking hpcs-compute online atomic lib', function() {
 
          //console.log(JSON.stringify(result.nodes, null, '   '));
          node = underscore.find(result.nodes, function (node) {
-            return node.id === g_id;
+            return node.id === g_node.id;
          });
          should.exist(node);
 
@@ -100,7 +100,7 @@ describe('checking hpcs-compute online atomic lib', function() {
       var settings = {
          regionContext: regionContext,
          imageParams: {
-            nodeId: g_id,
+            nodeId: g_node.id,
             tags: {
                'creationDate': new Date(),
                'createdFor': 'test purposes',
@@ -166,9 +166,7 @@ describe('checking hpcs-compute online atomic lib', function() {
    it('should delete a node from hpcs-compute', function(done) {
       var settings = {
          regionContext: regionContext,
-         nodeParams: {
-            id: g_id
-         }
+         node: g_node
       };
 
       this.timeout(10000);
