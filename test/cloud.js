@@ -29,7 +29,7 @@ describe('cloud management tests', function() {
       nodes: [],
       createdImageId: '',
       keyName: 'stormRegion2', // private key - please create you own
-      imageId: '1c556fd2-2b05-42e2-8745-73f261b876fe', // ubuntu 12.04 rescue
+      imageId: '27be722e-d2d0-44f0-bebe-471c4af76039', // ubuntu 12.04
       instanceType: 100 // standard.xsmall
    });
 

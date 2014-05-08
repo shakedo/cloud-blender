@@ -43,7 +43,7 @@ describe('checking hpcs-compute online atomic lib', function() {
          settings = {
             regionContext: regionContext,
             nodeParams: {
-               imageId: '1c556fd2-2b05-42e2-8745-73f261b876fe', //ubuntu 12.04
+               imageId: '27be722e-d2d0-44f0-bebe-471c4af76039', //ubuntu 12.04
                instanceType: 100, // standard.xlarge
                tags: {
                   jobId: 'dummyJobId',
