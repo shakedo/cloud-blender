@@ -181,4 +181,19 @@ describe('checking hpcs-compute online atomic lib', function() {
          done();
       });
    });
+
+   // it ('should check account limits', function(done) { 
+   //    var settings = {
+   //       regionContext: regionContext
+   //    };
+
+   //    this.timeout(20000);
+
+   //    compute.getLimits(settings, function(error, result) {
+   //       console.log(JSON.stringify(result, null, '   '));
+   //       should.not.exist(error);
+   //       done();
+   //    });
+   // });
+
 });
