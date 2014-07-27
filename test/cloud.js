@@ -3,6 +3,7 @@ var should = require('should'),
    execCloudTests = process.env.EXEC_CLOUD_TESTS,
    hpcsUSWestAz2Settings = require('../examples/hpcs_uswest_az2'),
    awsUSEast1Settings = require('../examples/aws_east_1'),
+   hpcsUSWest_13_5_Settings = require('../examples/hpcs_uswest_13_5'),
    cloud = require('../lib/cloud.js');
 
  // in the form of http://proxy.com:8080 - change to your own proxy
@@ -18,14 +19,24 @@ describe('cloud management tests', function() {
 
    var regionsSettings = [],
       regionLimitsConfiguration = {
-         postRatePerMinute: 200,
+         postRatePerMinute: 50,
          deleteRatePerMinute: 60
       };
 
    regionsSettings.push({
+      regionContext: cloud.createRegionContext('hpcs_13_5', hpcsUSWest_13_5_Settings, 
+                                               regionLimitsConfiguration),
+      nodes: [],
+      createdImageId: '',
+      keyName: 'stormRegion2', // private key - please create you own
+      imageId: '27be722e-d2d0-44f0-bebe-471c4af76039', // ubuntu 12.04
+      instanceType: 100 // standard.xsmall
+   });
+
+   regionsSettings.push({
       regionContext: cloud.createRegionContext('hpcs', hpcsUSWestAz2Settings, 
                                                regionLimitsConfiguration),
-      nodeIds: [],
+      nodes: [],
       createdImageId: '',
       keyName: 'stormRegion2', // private key - please create you own
       imageId: 14075, // public fedora on hpc2 uswest az2
@@ -35,7 +46,7 @@ describe('cloud management tests', function() {
    regionsSettings.push({
       regionContext: cloud.createRegionContext('aws', awsUSEast1Settings, 
                                                regionLimitsConfiguration),
-      nodeIds: [],
+      nodes: [],
       createdImageId: '',
       keyName: 'storm-east1', // private key - please create your own
       imageId: 'ami-d0f89fb9', // public ubuntu 12.04 i686 on aws east-1 
@@ -78,7 +89,7 @@ describe('cloud management tests', function() {
             nodes.length.should.equal(settings.nodes.length);
             should.exist(result.rawResults);
             underscore.each(nodes, function(node) {
-               region.nodeIds.push(node.id);
+               region.nodes.push(node);
                should.exist(node.id);
                should.exist(node.tags);
                should.exist(node.tags.logicName);
@@ -87,7 +98,6 @@ describe('cloud management tests', function() {
             done();
          });
       });
-
 
       it('should fail to create nodes from non existed image on ' + region.regionContext.providerName, function(done) {
          var settings = {
@@ -103,7 +113,6 @@ describe('cloud management tests', function() {
             should.exist(error);
             done();
          });
- 
       });
 
       it('should list nodes from ' + region.regionContext.providerName, function(done) {
@@ -119,9 +128,9 @@ describe('cloud management tests', function() {
             should.not.exist(error);
             should.exist(nodes);
             nodes.length.should.be.above(0);
-            underscore.each(region.nodeIds, function(id) {
+            underscore.each(region.nodes, function(regionNode) {
                nodeFound = underscore.find(nodes, function(node) {
-                  return node.id === id;
+                  return node.id === regionNode.id;
                });
 
                should.exist(result.rawResult);
@@ -139,7 +148,7 @@ describe('cloud management tests', function() {
          var settings = {
             regionContext: region.regionContext,
             imageParams: {
-               nodeId: region.nodeIds[0],
+               nodeId: region.nodes[0].id,
                tags: {
                   'creationDate': new Date(),
                   'createdFor': 'test purposes',
@@ -160,7 +169,6 @@ describe('cloud management tests', function() {
          });
       });
 
-
       it('should fail to create image from a non existed node on ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
@@ -176,8 +184,6 @@ describe('cloud management tests', function() {
             done();
          });
       });
-
-
 
       it('should list images from ' + region.regionContext.providerName, function(done) {
          var settings = {
@@ -218,7 +224,6 @@ describe('cloud management tests', function() {
          });
       });
 
-
       it('should fail to delete not existed image from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
@@ -237,12 +242,10 @@ describe('cloud management tests', function() {
          });
       });
 
-
-
       it('should delete nodes from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
-            nodesIds: region.nodeIds
+            nodes: region.nodes
          };
 
          this.timeout(360000);
@@ -255,11 +258,10 @@ describe('cloud management tests', function() {
          });
       });
 
-
       it('should fail to delete not existed nodes from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
-            nodesIds: ['not-exist']
+            nodes: ['not-exist']
          };
 
          this.timeout(360000);
@@ -269,8 +271,6 @@ describe('cloud management tests', function() {
             done();
          });
       });
-
-
    }); // each region
 }); // describe
 

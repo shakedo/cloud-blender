@@ -1,8 +1,8 @@
 var should = require('should'),
    underscore = require('underscore'),
    execCloudTests = process.env.EXEC_CLOUD_TESTS,
-   hpUSWestSettings = require('../examples/hpcs_uswest_az2'),
-   compute = require('../lib/hpcs_compute.js');
+   hpUSWestSettings = require('../examples/hpcs_uswest_13_5'),
+   compute = require('../lib/hpcs_compute_13_5.js');
 
  // in the form of http://proxy.com:8080 - change to your own proxy
 compute.setProxy(process.env.TUNNELING_PROXY);
@@ -35,6 +35,7 @@ if (execCloudTests !== 'true') {
 describe('checking hpcs-compute online atomic lib', function() {
    var g_node = '',
       g_imageId = '',
+      g_nodes,
       regionContext = compute.createRegionContext(hpUSWestSettings);
 
    it('should create a node on hpcs-compute', function(done) {
@@ -42,7 +43,7 @@ describe('checking hpcs-compute online atomic lib', function() {
          settings = {
             regionContext: regionContext,
             nodeParams: {
-               imageId: 9883, //ubuntu 12.04
+               imageId: '27be722e-d2d0-44f0-bebe-471c4af76039', //ubuntu 12.04
                instanceType: 100, // standard.xlarge
                tags: {
                   jobId: 'dummyJobId',
@@ -52,14 +53,14 @@ describe('checking hpcs-compute online atomic lib', function() {
                },
                keyName: 'stormRegion2',
                securityGroups: ['injector-linux'],
-               userData: {
-                  'key1': 'param1'
-               },
+               // userData: {
+               //    'key1': 'param1'
+               // },
                vendorSpecificParams: {}
             }
          };
 
-         this.timeout(20000);
+         this.timeout(240000);
 
          compute.createNode(settings, function(error, result) {
             should.not.exist(error);
@@ -67,6 +68,9 @@ describe('checking hpcs-compute online atomic lib', function() {
             should.exist(result.node);
             should.exist(result.node.id);
             should.exist(result.node.tags);
+            should.exist(result.node.addresses);
+            should.exist(result.node.addresses[0]);
+            should.exist(result.node.addresses[1]);
             should.exist(result.node.releaseInfo);
             g_node = result.node;
             //console.log(JSON.stringify(result.node, null, '   '));
@@ -87,7 +91,7 @@ describe('checking hpcs-compute online atomic lib', function() {
          should.exist(result.rawResult);
          should.exist(result.nodes);
 
-         //console.log(JSON.stringify(result.nodes, null, '   '));
+         console.log(JSON.stringify(result.nodes, null, '   '));
          node = underscore.find(result.nodes, function (node) {
             return node.id === g_node.id;
          });
@@ -109,22 +113,19 @@ describe('checking hpcs-compute online atomic lib', function() {
             },
             vendorSpecificParams: {}
          }
-      },
-      waitInterval = 80000;
-      this.timeout(waitInterval+20000);
+      };
+      this.timeout(20000);
 
       // wait is needed since image can be taken only on running/stopped state...
       // we wait instead of polling since polling is higher level.
-      setTimeout(function() {
-         compute.createImage(settings, function(error, result) {
-            should.not.exist(error);
-            should.exist(result.rawResult);
-            should.exist(result.imageId);
-            g_imageId = result.imageId;
-            //            console.log(g_imageId);
-            done();
-         });
-      }, waitInterval);
+      compute.createImage(settings, function(error, result) {
+         should.not.exist(error);
+         should.exist(result.rawResult);
+         should.exist(result.imageId);
+         g_imageId = result.imageId;
+         //            console.log(g_imageId);
+         done();
+      });
    });
 
    it('should get a list of images from hpcs-compute', function(done) {
@@ -170,7 +171,7 @@ describe('checking hpcs-compute online atomic lib', function() {
          node: g_node
       };
 
-      this.timeout(10000);
+      this.timeout(40000);
 
       compute.deleteNode(settings, function(error, result) {
          should.not.exist(error);
@@ -182,7 +183,6 @@ describe('checking hpcs-compute online atomic lib', function() {
    });
 
    // it ('should check account limits', function(done) { 
-
    //    var settings = {
    //       regionContext: regionContext
    //    };
@@ -195,7 +195,5 @@ describe('checking hpcs-compute online atomic lib', function() {
    //       done();
    //    });
    // });
-
-
 
 });
