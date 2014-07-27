@@ -19,7 +19,7 @@ describe('cloud management tests', function() {
 
    var regionsSettings = [],
       regionLimitsConfiguration = {
-         postRatePerMinute: 200,
+         postRatePerMinute: 50,
          deleteRatePerMinute: 60
       };
 
