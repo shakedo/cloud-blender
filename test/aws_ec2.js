@@ -5,7 +5,7 @@ var should = require('should'),
    ec2 = require('../lib/aws_ec2.js');
 
  // in the form of http://proxy.com:8080 - change to your own proxy
-ec2.setProxy(process.env.TUNNELING_PROXY);
+ec2.setProxy(process.env.HTTPS_PROXY);
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 describe('checking aws-ec2 local atomic lib', function() {
