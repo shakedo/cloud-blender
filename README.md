@@ -137,7 +137,7 @@ There are two types of tests:
       - ./examples/hpcs_uswest_az2.json for HPCS US-West-AZ2 credentials.
       - ./examples/aws_east_1.json for AWS US-EAST-1 credentials.
 
-   These JSONs are used as inputs to the ``createREgionContext`` function. For example, ./examples/config_example.json
+   These JSONs are used as inputs to the ``createRegionContext`` function. For example, ./examples/config_example.json
    Please also create a key pair on each region and hard code it in the test files, where
    keyName is used.
 
