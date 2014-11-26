@@ -149,11 +149,8 @@ npm run test-atomic-aws # Tests AWS-EC2 atomic lib
 ``` 
 
 ## Additional Information
-- For the **latest updates** follow [@CloudBlender](https://twitter.com/CloudBlender).
-- For more **information, tutorials, and references** on the currently published version, visit [**Cloud Blender**](http://somelink@hp.com)
+- For the **latest updates** follow [@CloudBlender](https://twitter.com/CloudBlender) (coming soon).
 - [API reference](/projects/TCS/repos/mutlicloud/browse/docs/Reference.md)
 - For **issues or questions**, please open an issue or ask in twitter.
 
 
-## License
-We should add the relevant license file here
