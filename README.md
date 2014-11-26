@@ -111,7 +111,7 @@ The current version supports the following operations:
 - [listNodes](./docs/Reference.md#listNodes)
 - [deleteNodes](./docs/Reference.md#deleteNodes)
 - [createImage](./docs/Reference.md#createImage)
-- [listImage](./docs/Reference.md#listImage)
+- [listImages](./docs/Reference.md#listImages)
 - [deleteImage](./docs/Reference.md#deleteImage)
 
 ## Contributions Welcome
