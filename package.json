@@ -1,29 +1,45 @@
 {
-    "name": "cloud-blender",
-    "description" : "A high level library for cloud compute operations",
-    "author": {
-       "name": "Ofer Eliassaf",
-       "email": "ofer.eliassaf@hp.com"
-    },
-    "version": "0.0.2",
-    "dependencies": {
-        "request": "2.9.202",
-        "underscore": "1.4.3",
-        "crypto": "0.0.3",
-        "xml2js": "0.2.6"
-    },
-    "devDependencies": {
-        "mocha": "1.6.0",
-        "should": "1.2.0"
-    },
-    "scripts": {
-       "test": "node_modules/mocha/bin/mocha -R spec -r should test/cloud.js",
-       "test-atomic-hpcs": "node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute.js",
-       "test-atomic-hpcs_13_5": "node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute_13_5.js",
-       "test-atomic-aws": "node_modules/mocha/bin/mocha -R spec -r should test/aws_ec2.js"
-    },
-    "keywords": [
-       "cloud", "aws", "ec2", "hpcs", "compute", "cross-platform"
-    ]
+  "name": "cloud-blender",
+  "description": "A high level library for cloud compute operations",
+  "author": "Ofer Eliassaf <ofer.eliassaf@hp.com>",
+  "version": "0.0.2",
+  "dependencies": {
+    "request": "2.9.202",
+    "underscore": "1.4.3",
+    "crypto": "0.0.3",
+    "xml2js": "0.2.6"
+  },
+  "devDependencies": {
+    "mocha": "1.6.0",
+    "should": "1.2.0"
+  },
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha -R spec -r should test/cloud.js",
+    "test-atomic-hpcs": "node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute.js",
+    "test-atomic-hpcs_13_5": "node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute_13_5.js",
+    "test-atomic-aws": "node_modules/mocha/bin/mocha -R spec -r should test/aws_ec2.js"
+  },
+  "keywords": [
+    "cloud",
+    "aws",
+    "ec2",
+    "hpcs",
+    "compute",
+    "cross-platform"
+  ],
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HPSoftware/cloud-blender.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HPSoftware/cloud-blender/issues"
+  },
+  "homepage": "https://github.com/HPSoftware/cloud-blender"
 }
-
