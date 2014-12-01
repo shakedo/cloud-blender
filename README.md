@@ -28,7 +28,7 @@ var cloud = require('cloud-blender'),
       // or from a secured file.
       // Information on how to obtain hp access, secret, tenant id, region and az
       // can be found in https://blog.hpcloud.com/using-hp-cloud-identity-service
-      regionContext: cloud.createRegionContext('hpcs', {
+      regionContext: cloud.createRegionContext('hpcs_13_5', {
             "accessKey": "<your hpcs access key>", 
             "secretKey": "<your hpcs secret key>", 
             "tenantId": "<your hpcs tenant id>",
@@ -101,7 +101,7 @@ var cloud = require('cloud-blender'),
 
 
 ## Current Cloud Providers Support
-The current version supports **HPCS-compute** and **AWS-EC2**.
+The current version supports **HPCS-compute (both 12.12 and 13.5 versions)** and **AWS-EC2**.
 
 
 ## Current Version Supported Operations
