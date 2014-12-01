@@ -195,7 +195,7 @@ Create a region specific context that allows cloud-blender to authenticate and c
 for optimization purposes. It also contains the region's rate limits so that cloud-blender
 will not exceed them.
 
-- `providerName`: A string containing "hpcs" for **HPCS-compute** or "aws" for **AWS-EC2**"
+- `providerName`: A string containing "hpcs" for **HPCS-compute v12.12** or "hpcs" for **HPCS-compute v13.5** or "aws" for **AWS-EC2**"
 - `regionLimits` is an object containing regions rate limits
 
    - `postRatePerMinute` A number representing the amount of HTTP POST requests that are
