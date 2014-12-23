@@ -48,15 +48,18 @@ describe('checking azure atomic lib', function () {
             nodes: [
                {
                   imageId: imageId,
+                  instanceType: 'Basic_A0',
                   tags: {
                      jobId: 'dummyJobId',
                      env: 'test',
                      role: 'injector-Test'
                   },
+
                   userData: {'paramA': 'keyA', 'paramB': 'keyB', 'paramC': 'keyc'}
                },
                {
                   imageId: imageId,
+                  instanceType: 'Basic_A0',
                   tags: {
                      jobId: 'dummyJobId',
                      env: 'test',
@@ -70,6 +73,7 @@ describe('checking azure atomic lib', function () {
             regionContext: regionContext,
             nodeParams: {
                imageId: imageId,
+               instanceType: 'Basic_A0',
                tags: {
                   jobId: 'dummyJobId',
                   env: 'test',
