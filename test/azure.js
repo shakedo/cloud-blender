@@ -2,6 +2,7 @@ var should = require('should'),
    underscore = require('underscore'),
    compute = require('../lib/azure.js'),
    azureStorage = require('../lib/azure_storage.js'),
+   azureConfig=require('../examples/azure.json'),
    imageId = 'image',
    node1,
    node2,
@@ -10,8 +11,10 @@ var should = require('should'),
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
+compute.setProxy('http://web-proxy.isr.hp.com:8080');
+
 var providerName = 'azure',
-   regionAuthSettings = {cloudRegion: 'North Europe', subscriptionId: 'a2937094-60b6-4b00-966d-b4a2fcd5cb27', azureKeyPath: '/media/sf_Shared/key.pem', azureCertPath: '/media/sf_Shared/cert.pem', azureSshPemPath: '/media/sf_Shared/myCert.pem', azureFingerPrint: 'E9DA92526F8BEB7A2ECA0A66577C51661C0825E3'},
+   regionAuthSettings = azureConfig,
    regionLimits = {maxRolesPerService: 2};
 
 
@@ -88,7 +91,8 @@ describe('checking azure atomic lib', function () {
          }
 
          else {
-
+            should.not.exist(error);
+            should.exist(resultServices);
 
             compute.createNode(settingsCreate, resultServices, 0, function (error1, result1) {
 
@@ -137,7 +141,7 @@ describe('checking azure atomic lib', function () {
       });
    });
 
-   /*
+
    it('should get a list of nodes from azure in find both nodes which were created', function (done) {
       var waitInterval = 120000,
          settings = {
@@ -316,7 +320,7 @@ describe('checking azure atomic lib', function () {
 
       }, waitInterval);
    });
-    */
+
 });
 
 
