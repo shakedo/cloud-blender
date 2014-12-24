@@ -1,0 +1,6 @@
+{"cloudRegion": "North Europe",
+ "subscriptionId": "a2937094-60b6-4b00-966d-b4a2fcd5cb27",
+ "azureKeyPath": "/media/sf_Shared/key.pem",
+ "azureCertPath": "/media/sf_Shared/cert.pem",
+ "azureSshPemPath": "/media/sf_Shared/myCert.pem",
+"azureFingerPrint": "E9DA92526F8BEB7A2ECA0A66577C51661C0825E3"}
