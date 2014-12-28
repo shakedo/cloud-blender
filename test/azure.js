@@ -3,7 +3,7 @@ var should = require('should'),
    compute = require('../lib/azure.js'),
    azureStorage = require('../lib/azure_storage.js'),
    azureConfig=require('../examples/azure.json'),
-   imageId = 'image',
+   imageId = 'imageCreatedByStorm1419758469567',
    node1,
    node2,
    image;
@@ -48,7 +48,7 @@ describe('checking azure atomic lib', function () {
             nodes: [
                {
                   imageId: imageId,
-                  instanceType: 'Basic_A0',
+                  instanceType: 'Basic_A3',
                   tags: {
                      jobId: 'dummyJobId',
                      env: 'test',
@@ -59,7 +59,7 @@ describe('checking azure atomic lib', function () {
                },
                {
                   imageId: imageId,
-                  instanceType: 'Basic_A0',
+                  instanceType: 'Basic_A3',
                   tags: {
                      jobId: 'dummyJobId',
                      env: 'test',
@@ -73,7 +73,7 @@ describe('checking azure atomic lib', function () {
             regionContext: regionContext,
             nodeParams: {
                imageId: imageId,
-               instanceType: 'Basic_A0',
+               instanceType: 'Basic_A3',
                tags: {
                   jobId: 'dummyJobId',
                   env: 'test',
@@ -183,12 +183,12 @@ describe('checking azure atomic lib', function () {
 
 
    it('should create image from the first node which was created', function (done) {
-      var waitInterval = 2,
+      var waitInterval = 200000,
          settingsList = {
             regionContext: regionContext
 
          };
-      this.timeout(260000);
+      this.timeout(300000);
 
       setTimeout(function () {
 
