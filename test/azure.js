@@ -3,7 +3,7 @@ var should = require('should'),
    compute = require('../lib/azure.js'),
    azureStorage = require('../lib/azure_storage.js'),
    azureConfig=require('../examples/azure.json'),
-   imageId = 'imageCreatedByStorm1419758469567',
+   imageId = 'image',
    node1,
    node2,
    image;
@@ -120,7 +120,7 @@ describe('checking azure atomic lib', function () {
                compute.createNode(settingsCreate, resultServices, 1, function (error2, result2) {
 
                   if (error2) {
-                     console.log('error creating node1-' + error2);
+                     console.log('error creating node2-' + error2);
                      done();
                      return;
                   }
@@ -180,6 +180,7 @@ describe('checking azure atomic lib', function () {
          });
       }, waitInterval);
    });
+
 
 
    it('should create image from the first node which was created', function (done) {
