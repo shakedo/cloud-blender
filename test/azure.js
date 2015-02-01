@@ -3,7 +3,7 @@ var should = require('should'),
    compute = require('../lib/azure.js'),
    azureStorage = require('../lib/azure_storage.js'),
    azureConfig=require('../examples/azure.json'),
-   imageId = 'image',
+   imageId = 'srlTrueClientBaseImage',
    node1,
    node2,
    image;
@@ -48,7 +48,7 @@ describe('checking azure atomic lib', function () {
             nodes: [
                {
                   imageId: imageId,
-                  instanceType: 'Basic_A3',
+                  instanceType: 'Standard_D3',
                   tags: {
                      jobId: 'dummyJobId',
                      env: 'test',
@@ -59,7 +59,7 @@ describe('checking azure atomic lib', function () {
                },
                {
                   imageId: imageId,
-                  instanceType: 'Basic_A3',
+                  instanceType: 'Standard_D3',
                   tags: {
                      jobId: 'dummyJobId',
                      env: 'test',
@@ -73,7 +73,7 @@ describe('checking azure atomic lib', function () {
             regionContext: regionContext,
             nodeParams: {
                imageId: imageId,
-               instanceType: 'Basic_A3',
+               instanceType: 'Standard_D3',
                tags: {
                   jobId: 'dummyJobId',
                   env: 'test',
@@ -98,6 +98,7 @@ describe('checking azure atomic lib', function () {
             should.not.exist(error);
             should.exist(resultServices);
 
+
             compute.createNode(settingsCreate, resultServices, 0, function (error1, result1) {
 
                if (error1) {
@@ -106,7 +107,10 @@ describe('checking azure atomic lib', function () {
                   return;
                }
 
+
                should.not.exist(error1);
+
+
                should.exist(result1.rawResult);
                should.exist(result1.node);
                should.exist(result1.node.id);
