@@ -1,96 +1,116 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install' ]
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'publish' ]
 2 info using npm@1.4.28
-3 info using node@v0.10.33
+3 info using node@v0.10.32
 4 verbose node symlink /usr/bin/node
-5 verbose readDependencies using package.json deps
-6 verbose install where, deps [ '/home/omer/cloud-blender',
-6 verbose install   [ 'request',
-6 verbose install     'underscore',
-6 verbose install     'crypto',
-6 verbose install     'xml2js',
-6 verbose install     'azure-storage',
-6 verbose install     'mocha',
-6 verbose install     'should' ] ]
-7 info preinstall cloud-blender@0.0.2
-8 warn package.json crypto@0.0.3 crypto is also the name of a node core module.
-9 verbose readDependencies using package.json deps
-10 verbose already installed skipping request@2.9.202 /home/omer/cloud-blender
-11 verbose already installed skipping underscore@1.4.3 /home/omer/cloud-blender
-12 verbose already installed skipping crypto@0.0.3 /home/omer/cloud-blender
-13 verbose already installed skipping xml2js@0.2.6 /home/omer/cloud-blender
-14 verbose cache add [ 'azure-storage@1.4.28', null ]
-15 verbose cache add name=undefined spec="azure-storage@1.4.28" args=["azure-storage@1.4.28",null]
-16 verbose parsed url { protocol: null,
-16 verbose parsed url   slashes: null,
-16 verbose parsed url   auth: null,
-16 verbose parsed url   host: null,
-16 verbose parsed url   port: null,
-16 verbose parsed url   hostname: null,
-16 verbose parsed url   hash: null,
-16 verbose parsed url   search: null,
-16 verbose parsed url   query: null,
-16 verbose parsed url   pathname: 'azure-storage@1.4.28',
-16 verbose parsed url   path: 'azure-storage@1.4.28',
-16 verbose parsed url   href: 'azure-storage@1.4.28' }
-17 verbose already installed skipping mocha@1.6.0 /home/omer/cloud-blender
-18 verbose already installed skipping should@1.2.0 /home/omer/cloud-blender
-19 verbose cache add name="azure-storage" spec="1.4.28" args=["azure-storage","1.4.28"]
-20 verbose parsed url { protocol: null,
-20 verbose parsed url   slashes: null,
-20 verbose parsed url   auth: null,
-20 verbose parsed url   host: null,
-20 verbose parsed url   port: null,
-20 verbose parsed url   hostname: null,
-20 verbose parsed url   hash: null,
-20 verbose parsed url   search: null,
-20 verbose parsed url   query: null,
-20 verbose parsed url   pathname: '1.4.28',
-20 verbose parsed url   path: '1.4.28',
-20 verbose parsed url   href: '1.4.28' }
-21 verbose addNamed [ 'azure-storage', '1.4.28' ]
-22 verbose addNamed [ '1.4.28', '1.4.28' ]
-23 silly lockFile a15e6eb9-azure-storage-1-4-28 azure-storage@1.4.28
-24 verbose lock azure-storage@1.4.28 /home/omer/.npm/a15e6eb9-azure-storage-1-4-28.lock
-25 verbose request where is /azure-storage
-26 verbose request registry http://registry.npmjs.org/
-27 verbose request id 4ef79022bbd3b9d5
-28 verbose url raw /azure-storage
-29 verbose url resolving [ 'http://registry.npmjs.org/', './azure-storage' ]
-30 verbose url resolved http://registry.npmjs.org/azure-storage
-31 verbose request where is http://registry.npmjs.org/azure-storage
-32 info trying registry request attempt 1 at 11:03:19
-33 verbose etag "34M2XT9771XV8S1URNJ9MVR2C"
-34 http GET http://registry.npmjs.org/azure-storage
-35 http 200 http://registry.npmjs.org/azure-storage
-36 silly registry.get cb [ 200,
-36 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
-36 silly registry.get     etag: '"9NCE2TAEY98024ML9VBFOMT2O"',
-36 silly registry.get     'content-type': 'application/json',
-36 silly registry.get     'cache-control': 'max-age=60',
-36 silly registry.get     'content-length': '28122',
-36 silly registry.get     'accept-ranges': 'bytes',
-36 silly registry.get     date: 'Sun, 21 Dec 2014 09:03:19 GMT',
-36 silly registry.get     via: '1.1 varnish',
-36 silly registry.get     age: '0',
-36 silly registry.get     'x-served-by': 'cache-atl6231-ATL',
-36 silly registry.get     'x-cache': 'MISS',
-36 silly registry.get     'x-cache-hits': '0',
-36 silly registry.get     'x-timer': 'S1419152599.673458,VS0,VE146',
-36 silly registry.get     vary: 'Accept',
-36 silly registry.get     connection: 'Keep-Alive' } ]
-37 silly lockFile a15e6eb9-azure-storage-1-4-28 azure-storage@1.4.28
-38 silly lockFile a15e6eb9-azure-storage-1-4-28 azure-storage@1.4.28
-39 error Error: version not found: azure-storage@1.4.28
-39 error     at /usr/lib/node_modules/npm/lib/cache/add-named.js:125:12
-39 error     at saved (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/get.js:167:7)
-39 error     at Object.oncomplete (fs.js:107:15)
-40 error If you need help, you may report this *entire* log,
-40 error including the npm and node versions, at:
-40 error     <http://github.com/npm/npm/issues>
-41 error System Linux 3.8.0-35-generic
-42 error command "/usr/bin/node" "/usr/bin/npm" "install"
-43 error cwd /home/omer/cloud-blender
-44 error node -v v0.10.33
-45 error npm -v 1.4.28
-46 verbose exit [ 1, true ]
+5 verbose publish [ '.' ]
+6 verbose cache add [ '.', null ]
+7 verbose cache add name=undefined spec="." args=[".",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: '.',
+8 verbose parsed url   path: '.',
+8 verbose parsed url   href: '.' }
+9 silly lockFile 3a52ce78- .
+10 verbose lock . /home/ofer/.npm/3a52ce78-.lock
+11 verbose tar pack [ '/home/ofer/.npm/cloud-blender/0.0.5/package.tgz', '.' ]
+12 verbose tarball /home/ofer/.npm/cloud-blender/0.0.5/package.tgz
+13 verbose folder .
+14 info prepublish cloud-blender@0.0.5
+15 silly lockFile 1f1177db-tar tar://.
+16 verbose lock tar://. /home/ofer/.npm/1f1177db-tar.lock
+17 silly lockFile 60d23309--cloud-blender-0-0-5-package-tgz tar:///home/ofer/.npm/cloud-blender/0.0.5/package.tgz
+18 verbose lock tar:///home/ofer/.npm/cloud-blender/0.0.5/package.tgz /home/ofer/.npm/60d23309--cloud-blender-0-0-5-package-tgz.lock
+19 silly lockFile 1f1177db-tar tar://.
+20 silly lockFile 1f1177db-tar tar://.
+21 silly lockFile 60d23309--cloud-blender-0-0-5-package-tgz tar:///home/ofer/.npm/cloud-blender/0.0.5/package.tgz
+22 silly lockFile 60d23309--cloud-blender-0-0-5-package-tgz tar:///home/ofer/.npm/cloud-blender/0.0.5/package.tgz
+23 silly lockFile 4e9cf36c--npm-cloud-blender-0-0-5-package /home/ofer/.npm/cloud-blender/0.0.5/package
+24 verbose lock /home/ofer/.npm/cloud-blender/0.0.5/package /home/ofer/.npm/4e9cf36c--npm-cloud-blender-0-0-5-package.lock
+25 silly lockFile 4e9cf36c--npm-cloud-blender-0-0-5-package /home/ofer/.npm/cloud-blender/0.0.5/package
+26 silly lockFile 4e9cf36c--npm-cloud-blender-0-0-5-package /home/ofer/.npm/cloud-blender/0.0.5/package
+27 silly lockFile 3a52ce78- .
+28 silly lockFile 3a52ce78- .
+29 silly publish { name: 'cloud-blender',
+29 silly publish   description: 'A high level library for cloud compute operations',
+29 silly publish   author: { name: 'Ofer Eliassaf', email: 'ofer.eliassaf@hp.com' },
+29 silly publish   version: '0.0.5',
+29 silly publish   dependencies:
+29 silly publish    { request: '2.48.0',
+29 silly publish      underscore: '1.4.3',
+29 silly publish      crypto: '0.0.3',
+29 silly publish      xml2js: '0.2.6',
+29 silly publish      'azure-storage': '0.4.1' },
+29 silly publish   devDependencies: { mocha: '1.6.0', should: '1.2.0' },
+29 silly publish   scripts:
+29 silly publish    { test: 'node_modules/mocha/bin/mocha -R spec -r should test/cloud.js',
+29 silly publish      'test-atomic-hpcs': 'node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute.js',
+29 silly publish      'test-atomic-hpcs_13_5': 'node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute_13_5.js',
+29 silly publish      'test-atomic-aws': 'node_modules/mocha/bin/mocha -R spec -r should test/aws_ec2.js' },
+29 silly publish   keywords: [ 'cloud', 'aws', 'ec2', 'hpcs', 'compute', 'cross-platform' ],
+29 silly publish   main: 'index.js',
+29 silly publish   directories: { doc: 'docs', example: 'examples', test: 'test' },
+29 silly publish   repository:
+29 silly publish    { type: 'git',
+29 silly publish      url: 'https://github.com/HPSoftware/cloud-blender.git' },
+29 silly publish   license: 'MIT',
+29 silly publish   bugs: { url: 'https://github.com/HPSoftware/cloud-blender/issues' },
+29 silly publish   homepage: 'https://github.com/HPSoftware/cloud-blender',
+29 silly publish   readme: '# Cloud Blender\nA high level node library for cloud compute operations that abstracts away differences among multiple cloud providers.\n\n## Installing\n<pre><code>\nnpm install cloud-blender\n</code></pre>\n\n## Overview\nCloud Blender provides a unified way to work with multiple cloud vendor\'s compute service.\nCloud Blender works in a real asynchronous manner by having the callbacks called only after all the operations of a single function are \ncompleted and not when they accepted.\nYou provide generic inputs to every function regardless of the cloud provider. In addition, you can provide cloud specific inputs to use \nfunctionality provided by that cloud vendor. \nThe output of the functions consists of unified result and the original raw result from the cloud provider (converted to JSON). \nThis design ensures that if you are not passing specific inputs and not using the raw results, your code is 100% cross platform. \nYou can still accomplish cross platform functionality if you use raw results and are passing vendor specific parameters, \nhowever, you must verify it.\n\n## Basic Use Case\nExample of retrieving all the nodes in a region:\n\n```javascript\nvar cloud = require(\'cloud-blender\'),\n   settings = {\n      // This is for demo purposes only! Your credentials should not \n      // be hard coded, instead consider loading them from your environment\n      // or from a secured file.\n      // Information on how to obtain hp access, secret, tenant id, region and az\n      // can be found in https://blog.hpcloud.com/using-hp-cloud-identity-service\n      regionContext: cloud.createRegionContext(\'hpcs_13_5\', {\n            "accessKey": "<your hpcs access key>", \n            "secretKey": "<your hpcs secret key>", \n            "tenantId": "<your hpcs tenant id>",\n            "region": "region-a.geo-1", // hpcs uswest\n            "availabilityZone": "az-2"  // hpcs uswest - az2\n       })\n   };\n\ncloud.listNodes(settings, function(error, result) {\n   if (error) {\n      console.log(\'error in getting nodes list, details:\', error);\n   }\n   else {\n      //result.nodes will contain the same fields regardless the cloud provider\n      //result.rawResult will contain the original result from the cloud provider\n      console.log(\'successfully retrieved nodes list\', result.nodes);\n   }\n});\n```\n\n## Advanced Use Case\nExample of creating multiple nodes with different configurations in the same\nprovisioning request. Note that **Cloud Blender** allows the \nflexibility to create different configurations such as tags\n and different instance type in the same call. Note that the region post rate is non standard.\n\n```javascript\nvar cloud = require(\'cloud-blender\'),\n   settings = {\n         \n      // This is for demo purposes only! Your credentials should not \n      // be hard coded, instead consider load them from your envirenmet\n      // or from a secured file.\n      // Information on how to obtain aws access and secret can be found \n      // in:  http://docs.aws.amazon.com/fws/1.1/GettingStartedGuide/index.html?AWSCredentials.html\n      regionContext: cloud.createRegionContext(\'aws\', {\n            "accessKey": "<your aws access key>", \n            "secretKey": "<your aws secret key>", \n            "region": "us-east-1", \n         }, { postRatePerMinute: 200}),\n         nodes: [ // notice that we use multiple configurations in the same request\n            {\n               imageId: \'ami-d0f89fb9\', // public ubuntu 12.04 i686 on aws east-1 \n               instanceType: \'t1.micro\'\n               tags: {\n                  logicName: \'machine1\'\n               }\n            },\n            {\n               imageId: \'ami-d0f89fb9\', \n               instanceType: \'m1.large\'\n               tags: {\n                  logicName: \'machine2\'\n               }\n            }]\n      };\n\n   cloud.createNodes(settings, function(error, result) {\n      if (error) {\n         console.log(\'error in create nodes, details:\', error);\n      }\n      else {\n         //note that all nodes are currently in ACTIVE state\n         //result.nodes will contain the same fields regardless the cloud provider\n         //result.rawResult will contain the original result from the cloud provider\n         console.log(\'successfully created nodes\', result.nodes);\n      }\n   });\n```\n\n\n## Current Cloud Providers Support\nThe current version supports **HPCS-compute (both 12.12 and 13.5 versions)** and **AWS-EC2**.\n\n\n## Current Version Supported Operations\nThe current version supports the following operations:\n\n- [createNodes](./docs/Reference.md#createNodes)\n- [listNodes](./docs/Reference.md#listNodes)\n- [deleteNodes](./docs/Reference.md#deleteNodes)\n- [createImage](./docs/Reference.md#createImage)\n- [listImages](./docs/Reference.md#listImages)\n- [deleteImage](./docs/Reference.md#deleteImage)\n\n## Contributions Welcome\nWe welcome contributions from the community and are pleased to have them.\nFor bugs, enhancement requests and comments please open us issues.\nFor code contribution please fork and ask for pull request:\nPlease make sure you follow our coding style and that the tests are green.\nMake sure not to include your tenant credentials in the source code.\n\n## Running Tests\nThere are two types of tests:\n\n   - Remote: The majority of the validation tests are remote tests. These tests access real cloud services and you will incur a cost to run them.\n   - Local: There are a few validation tests that are local test. These tests are free.\n\n### How to Run a Test\n\n   - By default, only local test are running. If you want to enable remote tests set the EXEC_CLOUD_TESTS environment variable to true. \n      You can also setup a proxy by setting the environment variable TUNNELING_PROXY to your proxy.\n   - The tests are run on HPCS US-West-AZ2 and AWS-USEast-1. We hard coded certain properties of these regions. \n      You will need to create two configuration files in which include your credentials.\n\n      - ./examples/hpcs_uswest_az2.json for HPCS US-West-AZ2 credentials.\n      - ./examples/aws_east_1.json for AWS US-EAST-1 credentials.\n\n   These JSONs are used as inputs to the ``createRegionContext`` function. For example, ./examples/config_example.json\n   Please also create a key pair on each region and hard code it in the test files, where\n   keyName is used.\n\n   - To run the acutual tests:\n```\nnpm run test # Tests public API\nnpm run test-atomic-hpcs # Tests HPCS-Compute atomic module\nnpm run test-atomic-aws # Tests AWS-EC2 atomic lib\n``` \n\n## Additional Information\n- For the **latest updates** follow [@CloudBlender](https://twitter.com/CloudBlender) (coming soon).\n- [API reference](/projects/TCS/repos/mutlicloud/browse/docs/Reference.md)\n- For **issues or questions**, please open an issue or ask in twitter.\n\n\n',
+29 silly publish   readmeFilename: 'README.md',
+29 silly publish   gitHead: '84b5927c09790c14eb68ac818bb4464ab13abbd7',
+29 silly publish   _id: 'cloud-blender@0.0.5',
+29 silly publish   _shasum: '4a58f2a05406663043b4e4d06353fd2fc833f966',
+29 silly publish   _from: '.' }
+30 verbose request where is /cloud-blender
+31 verbose request registry http://registry.npmjs.org/
+32 verbose request id 26aef07cacbe8e95
+33 verbose url raw /cloud-blender
+34 verbose url resolving [ 'http://registry.npmjs.org/', './cloud-blender' ]
+35 verbose url resolved http://registry.npmjs.org/cloud-blender
+36 verbose request where is http://registry.npmjs.org/cloud-blender
+37 info trying registry request attempt 1 at 16:14:27
+38 http PUT http://registry.npmjs.org/cloud-blender
+39 http 403 http://registry.npmjs.org/cloud-blender
+40 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+40 verbose headers   'content-type': 'application/json',
+40 verbose headers   'content-length': '11266',
+40 verbose headers   'accept-ranges': 'bytes',
+40 verbose headers   date: 'Mon, 02 Feb 2015 14:14:30 GMT',
+40 verbose headers   via: '1.1 varnish',
+40 verbose headers   'x-served-by': 'cache-dfw1825-DFW',
+40 verbose headers   'x-cache': 'MISS',
+40 verbose headers   'x-cache-hits': '0',
+40 verbose headers   'x-timer': 'S1422886468.337122,VS0,VE1888',
+40 verbose headers   'cache-control': 'max-age=60, proxy-revalidate',
+40 verbose headers   connection: 'Keep-Alive' }
+41 error publish Failed PUT 403
+42 error Error: forbidden cannot modify pre-existing version: 0.0.5
+42 error old={"name":"cloud-blender","description":"A high level library for cloud compute operations","author":{"name":"Ofer Eliassaf","email":"ofer.eliassaf@hp.com"},"version":"0.0.5","dependencies":{"request":"2.48.0","underscore":"1.4.3","crypto":"0.0.3","xml2js":"0.2.6","azure-storage":"0.4.1"},"devDependencies":{"mocha":"1.6.0","should":"1.2.0"},"scripts":{"test":"node_modules/mocha/bin/mocha -R spec -r should test/cloud.js","test-atomic-hpcs":"node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute.js","test-atomic-hpcs_13_5":"node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute_13_5.js","test-atomic-aws":"node_modules/mocha/bin/mocha -R spec -r should test/aws_ec2.js"},"keywords":["cloud","aws","ec2","hpcs","compute","cross-platform"],"main":"index.js","directories":{"doc":"docs","example":"examples","test":"test"},"repository":{"type":"git","url":"https://github.com/HPSoftware/cloud-blender.git"},"license":"MIT","bugs":{"url":"https://github.com/HPSoftware/cloud-blender/issues"},"homepage":"https://github.com/HPSoftware/cloud-blender","gitHead":"50e7396ed0ac022bb9aa9594457aeccdd6ac4651","_id":"cloud-blender@0.0.5","_shasum":"2466135ca91e44b3bb8a650758730656dfc20086","_from":".","_npmVersion":"1.4.28","_npmUser":{"name":"ofere","email":"ofer.eliassaf@gmail.com"},"maintainers":[{"name":"ofere","email":"ofer.eliassaf@gmail.com"}],"dist":{"shasum":"2466135ca91e44b3bb8a650758730656dfc20086","tarball":"http://registry.npmjs.org/cloud-blender/-/cloud-blender-0.0.5.tgz"}}
+42 error new={"name":"cloud-blender","description":"A high level library for cloud compute operations","author":{"name":"Ofer Eliassaf","email":"ofer.eliassaf@hp.com"},"version":"0.0.5","dependencies":{"request":"2.48.0","underscore":"1.4.3","crypto":"0.0.3","xml2js":"0.2.6","azure-storage":"0.4.1"},"devDependencies":{"mocha":"1.6.0","should":"1.2.0"},"scripts":{"test":"node_modules/mocha/bin/mocha -R spec -r should test/cloud.js","test-atomic-hpcs":"node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute.js","test-atomic-hpcs_13_5":"node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute_13_5.js","test-atomic-aws":"node_modules/mocha/bin/mocha -R spec -r should test/aws_ec2.js"},"keywords":["cloud","aws","ec2","hpcs","compute","cross-platform"],"main":"index.js","directories":{"doc":"docs","example":"examples","test":"test"},"repository":{"type":"git","url":"https://github.com/HPSoftware/cloud-blender.git"},"license":"MIT","bugs":{"url":"https://github.com/HPSoftware/cloud-blender/issues"},"homepage":"https://github.com/HPSoftware/cloud-blender","readme":"# Cloud Blender\u000aA high level node library for cloud compute operations that abstracts away differences among multiple cloud providers.\u000a\u000a## Installing\u000a<pre><code>\u000anpm install cloud-blender\u000a</code></pre>\u000a\u000a## Overview\u000aCloud Blender provides a unified way to work with multiple cloud vendor's compute service.\u000aCloud Blender works in a real asynchronous manner by having the callbacks called only after all the operations of a single function are \u000acompleted and not when they accepted.\u000aYou provide generic inputs to every function regardless of the cloud provider. In addition, you can provide cloud specific inputs to use \u000afunctionality provided by that cloud vendor. \u000aThe output of the functions consists of unified result and the original raw result from the cloud provider (converted to JSON). \u000aThis design ensures that if you are not passing specific inputs and not using the raw results, your code is 100% cross platform. \u000aYou can still accomplish cross platform functionality if you use raw results and are passing vendor specific parameters, \u000ahowever, you must verify it.\u000a\u000a## Basic Use Case\u000aExample of retrieving all the nodes in a region:\u000a\u000a```javascript\u000avar cloud = require('cloud-blender'),\u000a   settings = {\u000a      // This is for demo purposes only! Your credentials should not \u000a      // be hard coded, instead consider loading them from your environment\u000a      // or from a secured file.\u000a      // Information on how to obtain hp access, secret, tenant id, region and az\u000a      // can be found in https://blog.hpcloud.com/using-hp-cloud-identity-service\u000a      regionContext: cloud.createRegionContext('hpcs_13_5', {\u000a            \"accessKey\": \"<your hpcs access key>\", \u000a            \"secretKey\": \"<your hpcs secret key>\", \u000a            \"tenantId\": \"<your hpcs tenant id>\",\u000a            \"region\": \"region-a.geo-1\", // hpcs uswest\u000a            \"availabilityZone\": \"az-2\"  // hpcs uswest - az2\u000a       })\u000a   };\u000a\u000acloud.listNodes(settings, function(error, result) {\u000a   if (error) {\u000a      console.log('error in getting nodes list, details:', error);\u000a   }\u000a   else {\u000a      //result.nodes will contain the same fields regardless the cloud provider\u000a      //result.rawResult will contain the original result from the cloud provider\u000a      console.log('successfully retrieved nodes list', result.nodes);\u000a   }\u000a});\u000a```\u000a\u000a## Advanced Use Case\u000aExample of creating multiple nodes with different configurations in the same\u000aprovisioning request. Note that **Cloud Blender** allows the \u000aflexibility to create different configurations such as tags\u000a and different instance type in the same call. Note that the region post rate is non standard.\u000a\u000a```javascript\u000avar cloud = require('cloud-blender'),\u000a   settings = {\u000a         \u000a      // This is for demo purposes only! Your credentials should not \u000a      // be hard coded, instead consider load them from your envirenmet\u000a      // or from a secured file.\u000a      // Information on how to obtain aws access and secret can be found \u000a      // in:  http://docs.aws.amazon.com/fws/1.1/GettingStartedGuide/index.html?AWSCredentials.html\u000a      regionContext: cloud.createRegionContext('aws', {\u000a            \"accessKey\": \"<your aws access key>\", \u000a            \"secretKey\": \"<your aws secret key>\", \u000a            \"region\": \"us-east-1\", \u000a         }, { postRatePerMinute: 200}),\u000a         nodes: [ // notice that we use multiple configurations in the same request\u000a            {\u000a               imageId: 'ami-d0f89fb9', // public ubuntu 12.04 i686 on aws east-1 \u000a               instanceType: 't1.micro'\u000a               tags: {\u000a                  logicName: 'machine1'\u000a               }\u000a            },\u000a            {\u000a               imageId: 'ami-d0f89fb9', \u000a               instanceType: 'm1.large'\u000a               tags: {\u000a                  logicName: 'machine2'\u000a               }\u000a            }]\u000a      };\u000a\u000a   cloud.createNodes(settings, function(error, result) {\u000a      if (error) {\u000a         console.log('error in create nodes, details:', error);\u000a      }\u000a      else {\u000a         //note that all nodes are currently in ACTIVE state\u000a         //result.nodes will contain the same fields regardless the cloud provider\u000a         //result.rawResult will contain the original result from the cloud provider\u000a         console.log('successfully created nodes', result.nodes);\u000a      }\u000a   });\u000a```\u000a\u000a\u000a## Current Cloud Providers Support\u000aThe current version supports **HPCS-compute (both 12.12 and 13.5 versions)** and **AWS-EC2**.\u000a\u000a\u000a## Current Version Supported Operations\u000aThe current version supports the following operations:\u000a\u000a- [createNodes](./docs/Reference.md#createNodes)\u000a- [listNodes](./docs/Reference.md#listNodes)\u000a- [deleteNodes](./docs/Reference.md#deleteNodes)\u000a- [createImage](./docs/Reference.md#createImage)\u000a- [listImages](./docs/Reference.md#listImages)\u000a- [deleteImage](./docs/Reference.md#deleteImage)\u000a\u000a## Contributions Welcome\u000aWe welcome contributions from the community and are pleased to have them.\u000aFor bugs, enhancement requests and comments please open us issues.\u000aFor code contribution please fork and ask for pull request:\u000aPlease make sure you follow our coding style and that the tests are green.\u000aMake sure not to include your tenant credentials in the source code.\u000a\u000a## Running Tests\u000aThere are two types of tests:\u000a\u000a   - Remote: The majority of the validation tests are remote tests. These tests access real cloud services and you will incur a cost to run them.\u000a   - Local: There are a few validation tests that are local test. These tests are free.\u000a\u000a### How to Run a Test\u000a\u000a   - By default, only local test are running. If you want to enable remote tests set the EXEC_CLOUD_TESTS environment variable to true. \u000a      You can also setup a proxy by setting the environment variable TUNNELING_PROXY to your proxy.\u000a   - The tests are run on HPCS US-West-AZ2 and AWS-USEast-1. We hard coded certain properties of these regions. \u000a      You will need to create two configuration files in which include your credentials.\u000a\u000a      - ./examples/hpcs_uswest_az2.json for HPCS US-West-AZ2 credentials.\u000a      - ./examples/aws_east_1.json for AWS US-EAST-1 credentials.\u000a\u000a   These JSONs are used as inputs to the ``createRegionContext`` function. For example, ./examples/config_example.json\u000a   Please also create a key pair on each region and hard code it in the test files, where\u000a   keyName is used.\u000a\u000a   - To run the acutual tests:\u000a```\u000anpm run test # Tests public API\u000anpm run test-atomic-hpcs # Tests HPCS-Compute atomic module\u000anpm run test-atomic-aws # Tests AWS-EC2 atomic lib\u000a``` \u000a\u000a## Additional Information\u000a- For the **latest updates** follow [@CloudBlender](https://twitter.com/CloudBlender) (coming soon).\u000a- [API reference](/projects/TCS/repos/mutlicloud/browse/docs/Reference.md)\u000a- For **issues or questions**, please open an issue or ask in twitter.\u000a\u000a\u000a","readmeFilename":"README.md","gitHead":"84b5927c09790c14eb68ac818bb4464ab13abbd7","_id":"cloud-blender@0.0.5","_shasum":"4a58f2a05406663043b4e4d06353fd2fc833f966","_from":".","_npmVersion":"1.4.28","_npmUser":{"name":"ofere","email":"ofer.eliassaf@gmail.com"},"maintainers":[{"name":"ofere","email":"ofer.eliassaf@gmail.com"}],"dist":{"shasum":"4a58f2a05406663043b4e4d06353fd2fc833f966","tarball":"http://registry.npmjs.org/cloud-blender/-/cloud-blender-0.0.5.tgz"}}: cloud-blender
+42 error     at RegClient.<anonymous> (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:308:14)
+42 error     at Request._callback (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:246:65)
+42 error     at Request.self.callback (/usr/lib/node_modules/npm/node_modules/request/request.js:236:22)
+42 error     at Request.emit (events.js:98:17)
+42 error     at Request.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1142:14)
+42 error     at Request.emit (events.js:117:20)
+42 error     at IncomingMessage.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1096:12)
+42 error     at IncomingMessage.emit (events.js:117:20)
+42 error     at _stream_readable.js:943:16
+42 error     at process._tickCallback (node.js:419:13)
+43 error If you need help, you may report this *entire* log,
+43 error including the npm and node versions, at:
+43 error     <http://github.com/npm/npm/issues>
+44 error System Linux 3.8.0-44-generic
+45 error command "/usr/bin/node" "/usr/bin/npm" "publish"
+46 error cwd /home/ofer/work/cloud-blender
+47 error node -v v0.10.32
+48 error npm -v 1.4.28
+49 verbose exit [ 1, true ]
