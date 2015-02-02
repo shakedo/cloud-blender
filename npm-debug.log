@@ -1,0 +1,96 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 verbose node symlink /usr/bin/node
+5 verbose readDependencies using package.json deps
+6 verbose install where, deps [ '/home/omer/cloud-blender',
+6 verbose install   [ 'request',
+6 verbose install     'underscore',
+6 verbose install     'crypto',
+6 verbose install     'xml2js',
+6 verbose install     'azure-storage',
+6 verbose install     'mocha',
+6 verbose install     'should' ] ]
+7 info preinstall cloud-blender@0.0.2
+8 warn package.json crypto@0.0.3 crypto is also the name of a node core module.
+9 verbose readDependencies using package.json deps
+10 verbose already installed skipping request@2.9.202 /home/omer/cloud-blender
+11 verbose already installed skipping underscore@1.4.3 /home/omer/cloud-blender
+12 verbose already installed skipping crypto@0.0.3 /home/omer/cloud-blender
+13 verbose already installed skipping xml2js@0.2.6 /home/omer/cloud-blender
+14 verbose cache add [ 'azure-storage@1.4.28', null ]
+15 verbose cache add name=undefined spec="azure-storage@1.4.28" args=["azure-storage@1.4.28",null]
+16 verbose parsed url { protocol: null,
+16 verbose parsed url   slashes: null,
+16 verbose parsed url   auth: null,
+16 verbose parsed url   host: null,
+16 verbose parsed url   port: null,
+16 verbose parsed url   hostname: null,
+16 verbose parsed url   hash: null,
+16 verbose parsed url   search: null,
+16 verbose parsed url   query: null,
+16 verbose parsed url   pathname: 'azure-storage@1.4.28',
+16 verbose parsed url   path: 'azure-storage@1.4.28',
+16 verbose parsed url   href: 'azure-storage@1.4.28' }
+17 verbose already installed skipping mocha@1.6.0 /home/omer/cloud-blender
+18 verbose already installed skipping should@1.2.0 /home/omer/cloud-blender
+19 verbose cache add name="azure-storage" spec="1.4.28" args=["azure-storage","1.4.28"]
+20 verbose parsed url { protocol: null,
+20 verbose parsed url   slashes: null,
+20 verbose parsed url   auth: null,
+20 verbose parsed url   host: null,
+20 verbose parsed url   port: null,
+20 verbose parsed url   hostname: null,
+20 verbose parsed url   hash: null,
+20 verbose parsed url   search: null,
+20 verbose parsed url   query: null,
+20 verbose parsed url   pathname: '1.4.28',
+20 verbose parsed url   path: '1.4.28',
+20 verbose parsed url   href: '1.4.28' }
+21 verbose addNamed [ 'azure-storage', '1.4.28' ]
+22 verbose addNamed [ '1.4.28', '1.4.28' ]
+23 silly lockFile a15e6eb9-azure-storage-1-4-28 azure-storage@1.4.28
+24 verbose lock azure-storage@1.4.28 /home/omer/.npm/a15e6eb9-azure-storage-1-4-28.lock
+25 verbose request where is /azure-storage
+26 verbose request registry http://registry.npmjs.org/
+27 verbose request id 4ef79022bbd3b9d5
+28 verbose url raw /azure-storage
+29 verbose url resolving [ 'http://registry.npmjs.org/', './azure-storage' ]
+30 verbose url resolved http://registry.npmjs.org/azure-storage
+31 verbose request where is http://registry.npmjs.org/azure-storage
+32 info trying registry request attempt 1 at 11:03:19
+33 verbose etag "34M2XT9771XV8S1URNJ9MVR2C"
+34 http GET http://registry.npmjs.org/azure-storage
+35 http 200 http://registry.npmjs.org/azure-storage
+36 silly registry.get cb [ 200,
+36 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+36 silly registry.get     etag: '"9NCE2TAEY98024ML9VBFOMT2O"',
+36 silly registry.get     'content-type': 'application/json',
+36 silly registry.get     'cache-control': 'max-age=60',
+36 silly registry.get     'content-length': '28122',
+36 silly registry.get     'accept-ranges': 'bytes',
+36 silly registry.get     date: 'Sun, 21 Dec 2014 09:03:19 GMT',
+36 silly registry.get     via: '1.1 varnish',
+36 silly registry.get     age: '0',
+36 silly registry.get     'x-served-by': 'cache-atl6231-ATL',
+36 silly registry.get     'x-cache': 'MISS',
+36 silly registry.get     'x-cache-hits': '0',
+36 silly registry.get     'x-timer': 'S1419152599.673458,VS0,VE146',
+36 silly registry.get     vary: 'Accept',
+36 silly registry.get     connection: 'Keep-Alive' } ]
+37 silly lockFile a15e6eb9-azure-storage-1-4-28 azure-storage@1.4.28
+38 silly lockFile a15e6eb9-azure-storage-1-4-28 azure-storage@1.4.28
+39 error Error: version not found: azure-storage@1.4.28
+39 error     at /usr/lib/node_modules/npm/lib/cache/add-named.js:125:12
+39 error     at saved (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/get.js:167:7)
+39 error     at Object.oncomplete (fs.js:107:15)
+40 error If you need help, you may report this *entire* log,
+40 error including the npm and node versions, at:
+40 error     <http://github.com/npm/npm/issues>
+41 error System Linux 3.8.0-35-generic
+42 error command "/usr/bin/node" "/usr/bin/npm" "install"
+43 error cwd /home/omer/cloud-blender
+44 error node -v v0.10.33
+45 error npm -v 1.4.28
+46 verbose exit [ 1, true ]

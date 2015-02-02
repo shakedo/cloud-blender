@@ -2,12 +2,13 @@
   "name": "cloud-blender",
   "description": "A high level library for cloud compute operations",
   "author": "Ofer Eliassaf <ofer.eliassaf@hp.com>",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "dependencies": {
-    "request": "2.9.202",
+    "request": "2.48.0",
     "underscore": "1.4.3",
     "crypto": "0.0.3",
-    "xml2js": "0.2.6"
+    "xml2js": "0.2.6",
+    "azure-storage":"0.4.1"
   },
   "devDependencies": {
     "mocha": "1.6.0",
