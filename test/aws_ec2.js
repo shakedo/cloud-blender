@@ -32,9 +32,23 @@ describe('checking aws-ec2 atomic lib', function() {
       g_imageId,
       regionContext = ec2.createRegionContext(awsEast1Settings);
 
+   it ('should check describeAZs', function(done) {
+      var settings = {
+         regionContext: regionContext
+      };
+
+      this.timeout(30000);
+      ec2.describeAZs(settings, function(error, result) {
+         should.not.exist(error);
+         should.exist(result);
+         result.length.should.be.above(0);
+         //console.log('azs are: ' + JSON.stringify(result));
+         done();
+      });
+   });
+
    it('should launch instance on aws-ec2', function(done) {
-      var name = 'createdByStorm',
-         settings = {
+      var name = 'createdByStorm',   settings = {
             regionContext: regionContext,
             nodeParams: {
                imageId: 'ami-def89fb7', 
@@ -52,7 +66,7 @@ describe('checking aws-ec2 atomic lib', function() {
          };
 
          this.timeout(10000);
-         ec2.createNode(settings, function(error, result) {
+         ec2.createNode(settings, {}, 1, function(error, result) {
             should.not.exist(error);
             should.exist(result.rawResult);
             should.exist(result.node);
