@@ -1,10 +1,10 @@
 var should = require('should'),
    underscore = require('underscore'),
    execCloudTests = process.env.EXEC_CLOUD_TESTS,
-//hpcsUSWestAz2Settings = require('../examples/hpcs_uswest_az2'),
-//awsUSEast1Settings = require('../examples/aws_east_1'),
-//hpcsUSWest_13_5_Settings = require('../examples/hpcs_uswest_13_5'),
-//azure_Settings = require('../examples/azure'),
+   hpcsUSWestAz2Settings = require('../examples/hpcs_uswest_az2'),
+   awsUSEast1Settings = require('../examples/aws_east_1'),
+   hpcsUSWest_13_5_Settings = require('../examples/hpcs_uswest_13_5'),
+   azure_Settings = require('../examples/azure'),
    cloud = require('../lib/cloud.js'),
    azureConfig = require('../examples/azure.json');
 
@@ -21,8 +21,8 @@ describe('cloud management tests', function() {
 
    var regionsSettings = [],
       regionLimitsConfiguration = {
-         postRatePerMinute: 50,
-         deleteRatePerMinute: 60
+        postRatePerMinute: 50,
+        deleteRatePerMinute: 60
       };
 
    var providerName = 'azure',
@@ -31,53 +31,46 @@ describe('cloud management tests', function() {
 
    regionsSettings.push({
       regionContext: cloud.createRegionContext(providerName,
-         regionAuthSettings ,
-         regionLimits
-      ),
-      nodes: [],
-      keyName: 'stormRegion2',
-      imageId: 'image', // ubuntu 12.04
-      instanceType: 'Basic_A0' // standard.xsmall
+                                               regionAuthSettings ,
+                                               regionLimits
+                                              ),
+                                              nodes: [],
+                                              keyName: 'stormRegion2',
+                                              imageId: 'image', // ubuntu 12.04
+                                              instanceType: 'Basic_A0' // standard.xsmall
    });
 
+   regionsSettings.push({
+      regionContext: cloud.createRegionContext('hpcs_13_5', hpcsUSWest_13_5_Settings,
+                                               regionLimitsConfiguration),
+                                               nodes: [],
+                                               createdImageId: '',
+                                               keyName: 'stormRegion2', // private key - please create you own
+                                               imageId: '27be722e-d2d0-44f0-bebe-471c4af76039', // ubuntu 12.04
+                                               instanceType: 100 // standard.xsmall
+   });
 
-   /*
-    regionsSettings.push({
-    regionContext: cloud.createRegionContext('hpcs_13_5', hpcsUSWest_13_5_Settings,
-    regionLimitsConfiguration),
-    nodes: [],
-    createdImageId: '',
-    keyName: 'stormRegion2', // private key - please create you own
-    imageId: '27be722e-d2d0-44f0-bebe-471c4af76039', // ubuntu 12.04
-    instanceType: 100 // standard.xsmall
-    });
+   regionsSettings.push({
+      regionContext: cloud.createRegionContext('hpcs', hpcsUSWestAz2Settings,
+                                               regionLimitsConfiguration),
+                                               nodes: [],
+                                               createdImageId: '',
+                                               keyName: 'stormRegion2', // private key - please create you own
+                                               imageId: 14075, // public fedora on hpc2 uswest az2
+                                               instanceType: 100 // standard.xsmall
+   });
 
-    regionsSettings.push({
-    regionContext: cloud.createRegionContext('hpcs', hpcsUSWestAz2Settings,
-    regionLimitsConfiguration),
-    nodes: [],
-    createdImageId: '',
-    keyName: 'stormRegion2', // private key - please create you own
-    imageId: 14075, // public fedora on hpc2 uswest az2
-    instanceType: 100 // standard.xsmall
-    });
-
-    regionsSettings.push({
-    regionContext: cloud.createRegionContext('aws', awsUSEast1Settings,
-    regionLimitsConfiguration),
-    nodes: [],
-    createdImageId: '',
-    keyName: 'storm-east1', // private key - please create your own
-    imageId: 'ami-d0f89fb9', // public ubuntu 12.04 i686 on aws east-1
-    instanceType: 't1.micro'
-    });
-    */
-
-
+   regionsSettings.push({
+      regionContext: cloud.createRegionContext('aws', awsUSEast1Settings,
+                                               regionLimitsConfiguration),
+                                               nodes: [],
+                                               createdImageId: '',
+                                               keyName: 'storm-east1', // private key - please create your own
+                                               imageId: 'ami-d0f89fb9', // public ubuntu 12.04 i686 on aws east-1
+                                               instanceType: 't1.micro'
+   });
 
    underscore.each(regionsSettings, function(region) {
-
-
       it('should create nodes on ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
@@ -90,18 +83,28 @@ describe('cloud management tests', function() {
                },
                keyName: region.keyName
             },
-               {
-                  imageId: region.imageId,
-                  instanceType: region.instanceType,
-                  tags: {
-                     description: 'created by cloud blender mocha test',
-                     jobId: 'jobId-dummy',
-                     logicName: 'createdByStorm2'
-                  },
-                  userData: {'paramA': 'keyA', 'paramB': 'keyB', 'paramC': 'keyc'},
-                  keyName: region.keyName
-               }
-            ]
+            {
+               imageId: region.imageId,
+               instanceType: region.instanceType,
+               tags: {
+                  description: 'created by cloud blender mocha test',
+                  jobId: 'jobId-dummy',
+                  logicName: 'createdByStorm2'
+               },
+               userData: {'paramA': 'keyA', 'paramB': 'keyB', 'paramC': 'keyc'},
+               keyName: region.keyName
+            },
+            {
+               imageId: region.imageId,
+               instanceType: region.instanceType,
+               tags: {
+                  description: 'created by cloud blender mocha test',
+                  jobId: 'jobId-dummy',
+                  logicName: 'createdByStorm2'
+               },
+               userData: {'paramA': 'keyA', 'paramB': 'keyB', 'paramC': 'keyc'},
+               keyName: region.keyName
+            }]
          };
 
          this.timeout(460000);
@@ -124,31 +127,30 @@ describe('cloud management tests', function() {
          });
       });
 
-      /*
-       it('should fail to create nodes from non existed image on ' + region.regionContext.providerName, function(done) {
-       var settings = {
-       regionContext: region.regionContext,
-       nodes: [{
-       imageId: 'not-exist',
-       instanceType: region.instanceType,
-       tags: {
-       description: 'created by cloud blender mocha test',
-       jobId: 'jobId-dummy',
-       logicName: 'createdByStorm2'
-       },
-       userData: {'paramA': 'keyA', 'paramB': 'keyB', 'paramC': 'keyc'},
-       keyName: region.keyName
-       }]
-       };
 
-       this.timeout(360000);
-       cloud.createNodes(settings, function(error, result) {
-       should.exist(error);
-       done();
-       });
-       });
-       */
+      it('should fail to create nodes from non existed image on ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            nodes: [{
+         imageId: 'not-exist',
+         instanceType: region.instanceType,
+         tags: {
+            description: 'created by cloud blender mocha test',
+            jobId: 'jobId-dummy',
+            logicName: 'createdByStorm2'
+         },
+         userData: {'paramA': 'keyA', 'paramB': 'keyB', 'paramC': 'keyc'},
+         keyName: region.keyName
+            }]
+         };
 
+         this.timeout(360000);
+         cloud.createNodes(settings, function(error, result) {
+            should.exist(error);
+            done();
+         });
+      });
+      
       it('should list nodes from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext
@@ -301,20 +303,20 @@ describe('cloud management tests', function() {
             done();
          });
       });
-      /*
-       it('should fail to delete not existed nodes from ' + region.regionContext.providerName, function(done) {
-       var settings = {
-       regionContext: region.regionContext,
-       nodes: ['not-exist']
-       };
+      
+      it('should fail to delete not existed nodes from ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            nodes: ['not-exist']
+         };
 
-       this.timeout(360000);
+         this.timeout(360000);
 
-       cloud.deleteNodes(settings, function(error, result) {
-       should.exist(error);
-       done();
-       });
-       });
-       */
+         cloud.deleteNodes(settings, function(error, result) {
+            should.exist(error);
+            done();
+         });
+      });
+       
    }); // each region
 }); // describe
