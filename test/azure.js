@@ -3,7 +3,7 @@ var should = require('should'),
    compute = require('../lib/azure.js'),
    azureStorage = require('../lib/azure_storage.js'),
    azureConfig=require('../examples/azure.json'),
-   imageId = 'srlTrueClientBaseImage',
+   imageId = 'ubuntuImage',
    node1,
    node2,
    image;
@@ -15,7 +15,7 @@ compute.setProxy('http://web-proxy.isr.hp.com:8080');
 
 var providerName = 'azure',
    regionAuthSettings = azureConfig,
-   regionLimits = {maxRolesPerService: 2};
+   regionLimits = {maxRolesPerService: 1};
 
 
 var regionContext = compute.createRegionContext(regionAuthSettings, regionLimits);
