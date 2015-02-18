@@ -30,6 +30,7 @@ describe('checking aws-ec2 atomic lib', function() {
 
    var g_node = '',
       g_imageId,
+      g_ip = '184.73.164.67',
       regionContext = ec2.createRegionContext(awsEast1Settings);
 
    it ('should check describeAZs', function(done) {
@@ -184,6 +185,43 @@ describe('checking aws-ec2 atomic lib', function() {
       this.timeout(10000);
 
       ec2.deleteNode(settings, function(error, result) {
+         should.not.exist(error);
+         should.exist(result);
+         should.exist(result.result);
+         //console.log(result);
+         done();
+      });
+   });
+
+   it('should associate address from aws-ec2', function(done) {
+      var settings = {
+         regionContext: regionContext,
+         associatePairs: {
+            instanceId: g_node.id,
+            publicIp: g_ip
+         }
+      };
+
+      this.timeout(10000);
+
+      ec2.associateAddress(settings, function(error, result) {
+         should.not.exist(error);
+         should.exist(result);
+         should.exist(result.result);
+         //console.log(result);
+         done();
+      });
+   });
+
+   it('should disassociate address from aws-ec2', function(done) {
+      var settings = {
+         regionContext: regionContext,
+         publicIp: g_ip
+      };
+
+      this.timeout(10000);
+
+      ec2.disassociateAddress(settings, function(error, result) {
          should.not.exist(error);
          should.exist(result);
          should.exist(result.result);

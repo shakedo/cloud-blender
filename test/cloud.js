@@ -266,8 +266,6 @@ describe('cloud management tests', function() {
          });
       });
 
-
-
       it('should fail to delete not existed image from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
@@ -285,8 +283,6 @@ describe('cloud management tests', function() {
             done();
          });
       });
-
-
 
       it('should delete nodes from ' + region.regionContext.providerName, function(done) {
          var settings = {
@@ -317,6 +313,46 @@ describe('cloud management tests', function() {
             done();
          });
       });
-       
+/*
+      it('should associate addresses on ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            associatePairs: [{
+                  instanceId: ids[0],
+                  publicIp: '184.73.164.67'
+               },
+               {
+                  instanceId: ids[1],
+                  publicIp: '54.235.175.55'
+               }]
+            };
+
+         this.timeout(460000);
+
+         cloud.associateAddresses(settings, function(error, result) {
+            var associatePairs = settings.associatePairs;
+            //console.log(associatePairs);
+            should.not.exist(error);
+            should.exist(associatePairs);
+            associatePairs.length.should.equal(settings.associatePairs.length);
+            should.exist(result);
+            done();
+         });
+      });
+
+      it('should disassociate addresses from ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            publicIps: ['184.73.164.67', '54.235.175.55']
+         };
+
+         this.timeout(360000);
+
+         cloud.disassociateAddresses(settings, function(error, result) {
+            should.not.exist(error);
+            should.exist(result);
+            done();
+         });
+      });*/
    }); // each region
 }); // describe
