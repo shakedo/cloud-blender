@@ -40,7 +40,25 @@ describe('checking azure local atomic lib', function () {
 
 describe('checking azure atomic lib', function () {
 
+   it('should delete un used cloud services on azure', function (done) {
 
+      this.timeout(300000);
+
+      settingsDelServices = {
+         regionContext: regionContext
+      }
+      compute.deleteObjects(settingsDelServices, function(err,res){
+       if (err[0]){
+       console.log('err get cloud services-'+err)
+        done();
+        return;
+       }
+         should.not.exist(err[0]);
+         done();
+      });
+   })
+
+   /*
    it('should launch instance on azure', function (done) {
       var regionContext = compute.createRegionContext( regionAuthSettings, regionLimits),
          settingsPrepare = {
@@ -329,7 +347,7 @@ describe('checking azure atomic lib', function () {
 
       }, waitInterval);
    });
-
+ */
 });
 
 
