@@ -58,7 +58,7 @@ describe('checking azure atomic lib', function () {
       });
    })
 
-   /*
+
    it('should launch instance on azure', function (done) {
       var regionContext = compute.createRegionContext( regionAuthSettings, regionLimits),
          settingsPrepare = {
@@ -347,7 +347,7 @@ describe('checking azure atomic lib', function () {
 
       }, waitInterval);
    });
- */
+
 });
 
 
