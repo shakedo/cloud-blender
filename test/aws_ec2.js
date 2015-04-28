@@ -31,6 +31,7 @@ describe('checking aws-ec2 atomic lib', function() {
    var g_node = '',
       g_imageId,
       g_ip = '184.73.164.67',
+      allocatedIp,
       regionContext = ec2.createRegionContext(awsEast1Settings);
 
    it ('should check describeAZs', function(done) {
@@ -44,6 +45,35 @@ describe('checking aws-ec2 atomic lib', function() {
          should.exist(result);
          result.length.should.be.above(0);
          //console.log('azs are: ' + JSON.stringify(result));
+         done();
+      });
+   });
+
+   it('should allocate IP on aws-ec2', function(done) {
+
+      var settings = {
+         regionContext: regionContext
+      };
+
+      ec2.allocateAddress(settings, function(error, res) {
+         console.log('allocated Address-'+res.result);
+         should.not.exist(error);
+         should.exist(res.result);
+         allocatedIp=res.result;
+         done();
+      });
+   });
+
+   it('should release IP on aws-ec2', function(done) {
+      this.timeout(60000);
+      var settings = {
+         regionContext: regionContext,
+         publicIp:allocatedIp
+      };
+
+      ec2.releaseAddress(settings, function(error, res) {
+         should.not.exist(error);
+         'true'.should.equal(res.result);
          done();
       });
    });
