@@ -206,6 +206,7 @@ describe('checking aws-ec2 atomic lib', function() {
       }, waitInterval);
    });
 
+
    it('should delete instance from aws-ec2', function(done) {
       var settings = {
          regionContext: regionContext,
@@ -259,4 +260,28 @@ describe('checking aws-ec2 atomic lib', function() {
          done();
       });
    });
+
+   it('check add/remove launch permissions of image', function(done) {
+      var settings = {
+         regionContext: regionContext,
+         imageId: 'ami-bca4a8d4'  //a special image (plain ubuntu)created in advance for unit tests
+      };
+
+      var dummyAccount = '000000000000';  //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
+      this.timeout(20000);
+      ec2.modifyLaunchPermissions(settings,dummyAccount, true, function(error, result) { //add launch permissions
+         should.not.exist(error);
+         should.exist(result);
+         should.exist(result.result);
+         ec2.modifyLaunchPermissions(settings,dummyAccount, false, function(error, result) { //remove launch permissions
+            should.not.exist(error);
+            should.exist(result);
+            should.exist(result.result);
+            done();
+         });
+      });
+   });
+
+
+
 });
