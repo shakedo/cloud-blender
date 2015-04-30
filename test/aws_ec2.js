@@ -265,9 +265,9 @@ describe('checking aws-ec2 atomic lib', function() {
       var settings = {
          regionContext: regionContext,
          imageId: 'ami-bca4a8d4',  //a special image (plain ubuntu)created in advance for unit tests
-         accountIds: ['000000000000']  //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
+         userAccountId: '000000000000' //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
+         //userAccountId: 'all' //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
       };
-
       this.timeout(200000);
       ec2.modifyLaunchPermissions(settings, true, function(error, result) { //add launch permissions
          should.not.exist(error);
