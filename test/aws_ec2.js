@@ -282,7 +282,7 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it.only('reset launch permissions of image', function(done) {
+   it('reset launch permissions of image', function(done) {
       var settings = {
          regionContext: regionContext,
          imageId: 'ami-bca4a8d4'
