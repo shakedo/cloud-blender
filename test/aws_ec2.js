@@ -313,9 +313,4 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-
-
-
-
-
 });
