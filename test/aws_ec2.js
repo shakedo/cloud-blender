@@ -267,7 +267,7 @@ describe('checking aws-ec2 atomic lib', function() {
          imageId: 'ami-bca4a8d4'
       };
 
-      this.timeout(100000);
+      this.timeout(10000);
       ec2.resetLaunchPermissions(settings, function(error, result) { //add launch permissions
          should.not.exist(error);
          should.exist(result);
@@ -282,7 +282,7 @@ describe('checking aws-ec2 atomic lib', function() {
          imageId: 'ami-bca4a8d4',  //a special image (plain ubuntu)created in advance for unit tests
          accountIds: ['000000000000','000000000001', '000000000002', 'all'] //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
       };
-      this.timeout(400000);
+      this.timeout(40000);
       settings.bAdd = true;
       ec2.resetLaunchPermissions(settings, function (error, result) { //first Reset launch permissions
          ec2.modifyLaunchPermissions(settings, function (error, result) { //add launch permissions
