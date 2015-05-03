@@ -276,7 +276,7 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it('check launch permission api of image', function(done) {
+   it.only('check launch permission api of image', function(done) {
       var settings = {
          regionContext: regionContext,
          imageId: 'ami-bca4a8d4',  //a special image (plain ubuntu)created in advance for unit tests
@@ -290,9 +290,11 @@ describe('checking aws-ec2 atomic lib', function() {
             should.exist(result);
             should.exist(result.result);
             settings.bAdd = false;
-            ec2.getLaunchPermissions(settings, function (error, userIds) {
+            ec2.getLaunchPermissions(settings, function (error, result) {
+               var userIds;
                should.not.exist(error, 'Failed to get launch permissions');
-               should.exist(userIds);
+               should.exist(result);
+               userIds = result.rawResult;
                userIds.length.should.equal(4);
                settings.accountIds.forEach(function(id){
                   userIds.should.include(id, 'Cannot find account in launch permission list');
@@ -301,7 +303,8 @@ describe('checking aws-ec2 atomic lib', function() {
                   should.not.exist(error, 'Failed to remove launch permissions');
                   should.exist(result);
                   should.exist(result.result);
-                  ec2.getLaunchPermissions(settings, function (error, userIds) { //remove launch permissions
+                  ec2.getLaunchPermissions(settings, function (error, result) { //remove launch permissions
+                     var userIds = result.rawResult;
                      should.not.exist(error, 'Failed to get launch permissions');
                      userIds.length.should.equal(0);
                      done();
