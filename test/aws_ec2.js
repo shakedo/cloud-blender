@@ -206,6 +206,7 @@ describe('checking aws-ec2 atomic lib', function() {
       }, waitInterval);
    });
 
+
    it('should delete instance from aws-ec2', function(done) {
       var settings = {
          regionContext: regionContext,
@@ -259,4 +260,60 @@ describe('checking aws-ec2 atomic lib', function() {
          done();
       });
    });
+
+   it('reset launch permissions of image', function(done) {
+      var settings = {
+         regionContext: regionContext,
+         imageId: 'ami-bca4a8d4'
+      };
+
+      this.timeout(100000);
+      ec2.resetLaunchPermissions(settings, function(error, result) { //add launch permissions
+         should.not.exist(error);
+         should.exist(result);
+         should.exist(result.result);
+         done();
+      });
+   });
+
+   it.only('check launch permission api of image', function(done) {
+      var settings = {
+         regionContext: regionContext,
+         imageId: 'ami-bca4a8d4',  //a special image (plain ubuntu)created in advance for unit tests
+         accountIds: ['000000000000','000000000001', '000000000002', 'all'] //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
+      };
+      this.timeout(400000);
+      settings.bAdd = true;
+      ec2.resetLaunchPermissions(settings, function (error, result) { //first Reset launch permissions
+         ec2.modifyLaunchPermissions(settings, function (error, result) { //add launch permissions
+            should.not.exist(error, 'Failed to add launch permissions');
+            should.exist(result);
+            should.exist(result.result);
+            settings.bAdd = false;
+            ec2.getLaunchPermissions(settings, function (error, result) {
+               var userIds;
+               should.not.exist(error, 'Failed to get launch permissions');
+               should.exist(result);
+               userIds = result.rawResult;
+               userIds.length.should.equal(4);
+               settings.accountIds.forEach(function(id){
+                  userIds.should.include(id, 'Cannot find account in launch permission list');
+               });
+               ec2.modifyLaunchPermissions(settings, function (error, result) { //remove launch permissions
+                  should.not.exist(error, 'Failed to remove launch permissions');
+                  should.exist(result);
+                  should.exist(result.result);
+                  ec2.getLaunchPermissions(settings, function (error, result) { //remove launch permissions
+                     var userIds = result.rawResult;
+                     should.not.exist(error, 'Failed to get launch permissions');
+                     userIds.length.should.equal(0);
+                     done();
+
+                  });
+               });
+            });
+         });
+      });
+   });
+
 });
