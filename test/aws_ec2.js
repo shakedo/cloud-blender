@@ -276,7 +276,7 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it.only('check launch permission api of image', function(done) {
+   it('check launch permission api of image', function(done) {
       var settings = {
          regionContext: regionContext,
          imageId: 'ami-bca4a8d4',  //a special image (plain ubuntu)created in advance for unit tests
