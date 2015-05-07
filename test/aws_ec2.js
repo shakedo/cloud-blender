@@ -316,4 +316,20 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
+   it('check provider error handling', function(done) {
+      var settings = {
+         regionContext: regionContext,
+         imageId: 'bad id'
+      };
+      this.timeout(10000);
+      ec2.getLaunchPermissions(settings, function(error, result) { //add launch permissions
+         should.exist(error);
+         should.exist(error.isFatal);
+         should.exist(error.providerDetails);
+         error.isFatal.should.be.true;
+         done();
+      });
+   });
+
+
 });
