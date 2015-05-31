@@ -276,7 +276,7 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it('check launch permission api of image', function(done) {
+   it.only('check launch permission api of image', function(done) {
       var settings = {
          regionContext: regionContext,
          imageId: 'ami-bca4a8d4',  //a special image (plain ubuntu)created in advance for unit tests
@@ -336,25 +336,24 @@ describe('checking aws-ec2 atomic lib', function() {
          regionContext: ec2.createRegionContext(awsEast1Settings)
       };
       this.timeout(10000);
-      ec2.validateCredentials(settings, function(error, result) {
+      ec2.getAccountId(settings, function(error, result) {
          should.not.exist(error);
-         result.should.be.true;
+         result.accountId.length.should.be.equal(12);
          done();
       });
    });
 
-   it('check invalid credential validation', function(done) {
+   it.only('check invalid credential validation', function(done) {
       var settings = {
          regionContext: ec2.createRegionContext({
-            "accessKey": "Dummy Access Key",
-            "secretKey": "Dummy Secret Key",
+            "accessKey": "AKIAJSAFYZITCGZGBL3Q",
+            "secretKey": "IwbnpHQxW4F5ruImsobOymMVtGo77IVD7wLYe3vs",
             "region": "us-east-1"
          })
       };
       this.timeout(10000);
-      ec2.validateCredentials(settings, function(error, result) {
-         should.not.exist(error);
-         result.should.be.false;
+      ec2.getAccountId(settings, function(error) {
+         should.exist(error);
          done();
       });
    });
@@ -369,7 +368,7 @@ describe('checking aws-ec2 atomic lib', function() {
          })
       };
       this.timeout(10000);
-      ec2.validateCredentials(settings, function(error) {
+      ec2.getAccountId(settings, function(error) {
          should.exist(error);
          done();
       });
