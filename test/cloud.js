@@ -69,7 +69,6 @@ describe('cloud management tests', function() {
                                                imageId: 'ami-d0f89fb9', // public ubuntu 12.04 i686 on aws east-1
                                                instanceType: 't1.micro'
    });
-
    underscore.each(regionsSettings, function(region) {
       it('should create nodes on ' + region.regionContext.providerName, function(done) {
          var settings = {
@@ -313,46 +312,68 @@ describe('cloud management tests', function() {
             done();
          });
       });
-/*
-      it('should associate addresses on ' + region.regionContext.providerName, function(done) {
+
+      it('should validate credentials ' + region.regionContext.providerName, function(done) {
          var settings = {
-            regionContext: region.regionContext,
-            associatePairs: [{
-                  instanceId: ids[0],
-                  publicIp: '184.73.164.67'
-               },
-               {
-                  instanceId: ids[1],
-                  publicIp: '54.235.175.55'
-               }]
-            };
+            regionContext: region.regionContext
+         };
 
-         this.timeout(460000);
+         this.timeout(10000);
 
-         cloud.associateAddresses(settings, function(error, result) {
-            var associatePairs = settings.associatePairs;
-            //console.log(associatePairs);
-            should.not.exist(error);
-            should.exist(associatePairs);
-            associatePairs.length.should.equal(settings.associatePairs.length);
-            should.exist(result);
+         cloud.validateCredentials(settings, function(error, result) {
+            //only supported in aws for now so other providers must return error
+            if(region.regionContext.providerName === 'aws')
+            {
+               should.not.exist(error);
+               result.should.be.true;
+            }
+            else{
+               should.exist(error);
+            }
             done();
          });
       });
 
-      it('should disassociate addresses from ' + region.regionContext.providerName, function(done) {
-         var settings = {
-            regionContext: region.regionContext,
-            publicIps: ['184.73.164.67', '54.235.175.55']
-         };
+      /*
+            it('should associate addresses on ' + region.regionContext.providerName, function(done) {
+               var settings = {
+                  regionContext: region.regionContext,
+                  associatePairs: [{
+                        instanceId: ids[0],
+                        publicIp: '184.73.164.67'
+                     },
+                     {
+                        instanceId: ids[1],
+                        publicIp: '54.235.175.55'
+                     }]
+                  };
 
-         this.timeout(360000);
+               this.timeout(460000);
 
-         cloud.disassociateAddresses(settings, function(error, result) {
-            should.not.exist(error);
-            should.exist(result);
-            done();
-         });
-      });*/
+               cloud.associateAddresses(settings, function(error, result) {
+                  var associatePairs = settings.associatePairs;
+                  //console.log(associatePairs);
+                  should.not.exist(error);
+                  should.exist(associatePairs);
+                  associatePairs.length.should.equal(settings.associatePairs.length);
+                  should.exist(result);
+                  done();
+               });
+            });
+
+            it('should disassociate addresses from ' + region.regionContext.providerName, function(done) {
+               var settings = {
+                  regionContext: region.regionContext,
+                  publicIps: ['184.73.164.67', '54.235.175.55']
+               };
+
+               this.timeout(360000);
+
+               cloud.disassociateAddresses(settings, function(error, result) {
+                  should.not.exist(error);
+                  should.exist(result);
+                  done();
+               });
+            });*/
    }); // each region
 }); // describe
