@@ -320,20 +320,6 @@ describe('cloud management tests', function() {
 
          this.timeout(10000);
 
-         cloud.validateCredentials(settings, function(error, result) {
-            //only supported in aws for now so other providers must return error
-            if(region.regionContext.providerName === 'aws')
-            {
-               should.not.exist(error);
-               result.should.be.true;
-            }
-            else{
-               should.exist(error);
-            }
-            done();
-         });
-      });
-
       /*
             it('should associate addresses on ' + region.regionContext.providerName, function(done) {
                var settings = {
@@ -375,5 +361,20 @@ describe('cloud management tests', function() {
                   done();
                });
             });*/
+
+         cloud.validateCredentials(settings, function(error, result) {
+            //only supported in aws for now so other providers must return error
+            if(region.regionContext.providerName === 'aws')
+            {
+               should.not.exist(error);
+               result.should.be.true;
+            }
+            else{
+               should.exist(error);
+            }
+            done();
+         });
+      });
+
    }); // each region
 }); // describe
