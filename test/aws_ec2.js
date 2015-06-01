@@ -331,5 +331,48 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
+   it('check credential validation', function(done) {
+      var settings = {
+         regionContext: ec2.createRegionContext(awsEast1Settings)
+      };
+      this.timeout(10000);
+      ec2.validateCredentials(settings, function(error, result) {
+         should.not.exist(error);
+         result.should.be.true;
+         done();
+      });
+   });
+
+   it('check invalid credential validation', function(done) {
+      var settings = {
+         regionContext: ec2.createRegionContext({
+            "accessKey": "Dummy Access Key",
+            "secretKey": "Dummy Secret Key",
+            "region": "us-east-1"
+         })
+      };
+      this.timeout(10000);
+      ec2.validateCredentials(settings, function(error, result) {
+         should.not.exist(error);
+         result.should.be.false;
+         done();
+      });
+   });
+
+   //errors other than valid credentils (e.g. wrong region etc)
+   it('check other error credential validation', function(done) {
+      var settings = {
+         regionContext: ec2.createRegionContext({
+            "accessKey": "Dummy Access Key",
+            "secretKey": "Dummy Secret Key",
+            "region": "dummy region"
+         })
+      };
+      this.timeout(10000);
+      ec2.validateCredentials(settings, function(error) {
+         should.exist(error);
+         done();
+      });
+   });
 
 });
