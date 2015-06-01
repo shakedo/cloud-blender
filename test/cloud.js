@@ -69,7 +69,6 @@ describe('cloud management tests', function() {
                                                imageId: 'ami-d0f89fb9', // public ubuntu 12.04 i686 on aws east-1
                                                instanceType: 't1.micro'
    });
-
    underscore.each(regionsSettings, function(region) {
       it('should create nodes on ' + region.regionContext.providerName, function(done) {
          var settings = {
@@ -313,6 +312,7 @@ describe('cloud management tests', function() {
             done();
          });
       });
+
 /*
       it('should associate addresses on ' + region.regionContext.providerName, function(done) {
          var settings = {
@@ -354,5 +354,28 @@ describe('cloud management tests', function() {
             done();
          });
       });*/
+
+      it('should validate credentials ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext
+         };
+
+         this.timeout(10000);
+
+         cloud.validateCredentials(settings, function(error, result) {
+            //only supported in aws for now so other providers must return error
+            if(region.regionContext.providerName === 'aws')
+            {
+               should.not.exist(error);
+               result.should.be.true;
+            }
+            else{
+               should.exist(error);
+            }
+            done();
+         });
+      });
+
+
    }); // each region
 }); // describe
