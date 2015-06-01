@@ -313,13 +313,6 @@ describe('cloud management tests', function() {
          });
       });
 
-      it('should validate credentials ' + region.regionContext.providerName, function(done) {
-         var settings = {
-            regionContext: region.regionContext
-         };
-
-         this.timeout(10000);
-
       /*
             it('should associate addresses on ' + region.regionContext.providerName, function(done) {
                var settings = {
@@ -362,6 +355,13 @@ describe('cloud management tests', function() {
                });
             });*/
 
+      it('should validate credentials ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext
+         };
+
+         this.timeout(10000);
+
          cloud.validateCredentials(settings, function(error, result) {
             //only supported in aws for now so other providers must return error
             if(region.regionContext.providerName === 'aws')
@@ -375,6 +375,7 @@ describe('cloud management tests', function() {
             done();
          });
       });
+
 
    }); // each region
 }); // describe
