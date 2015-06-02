@@ -67,7 +67,8 @@ describe('cloud management tests', function() {
                                                createdImageId: '',
                                                keyName: 'storm-east1', // private key - please create your own
                                                imageId: 'ami-d0f89fb9', // public ubuntu 12.04 i686 on aws east-1
-                                               instanceType: 't1.micro'
+                                               instanceType: 't1.micro',
+                                               accountId: awsUSEast1Settings.accountId
    });
    underscore.each(regionsSettings, function(region) {
       it('should create nodes on ' + region.regionContext.providerName, function(done) {
@@ -358,12 +359,8 @@ describe('cloud management tests', function() {
       it('should validate credentials ' + region.regionContext.providerName, function(done) {
          var settings = {
             providerName: region.regionContext.providerName,
-            accountId :   awsUSEast1Settings.accountId,
-            credentials: {
-               "accessKeyId": awsUSEast1Settings.accessKey,
-               "secretAccessKey": awsUSEast1Settings.secretKey
-
-            }
+            accountId :   region.accountId,
+            credentials: region.regionContext.identitySettings.credentials
          };
 
          this.timeout(10000);
