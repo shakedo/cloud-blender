@@ -361,7 +361,7 @@ describe('checking aws-ec2 atomic lib', function() {
       this.timeout(10000);
       ec2.validateCredentials(settings, function(error, result) {
          should.not.exist(error);
-         result.should.be.equal(1); //credentials Ok but account does not .
+         result.should.be.equal(-1); //credentials Ok but account does not .
          done();
       });
    });
@@ -378,7 +378,7 @@ describe('checking aws-ec2 atomic lib', function() {
       this.timeout(10000);
       ec2.validateCredentials(settings, function(error, result) {
          should.not.exist(error);
-         result.should.be.equal(2); //2 means security credentials are wrong
+         result.should.be.equal(-2); //-2 means security credentials are wrong
          done();
       });
    });
