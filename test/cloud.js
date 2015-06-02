@@ -357,7 +357,13 @@ describe('cloud management tests', function() {
 
       it('should validate credentials ' + region.regionContext.providerName, function(done) {
          var settings = {
-            regionContext: region.regionContext
+            providerName: region.regionContext.providerName,
+            accountId :   awsUSEast1Settings.accountId,
+            credentials: {
+               "accessKeyId": awsUSEast1Settings.accessKey,
+               "secretAccessKey": awsUSEast1Settings.secretKey
+
+            }
          };
 
          this.timeout(10000);
@@ -367,7 +373,7 @@ describe('cloud management tests', function() {
             if(region.regionContext.providerName === 'aws')
             {
                should.not.exist(error);
-               result.should.be.true;
+               result.should.be.equal(0);
             }
             else{
                should.exist(error);
@@ -378,4 +384,9 @@ describe('cloud management tests', function() {
 
 
    }); // each region
+
+   //
+
+
+
 }); // describe
