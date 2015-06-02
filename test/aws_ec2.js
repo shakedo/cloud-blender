@@ -134,7 +134,7 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it.only('should create image from a node on aws-ec2', function(done) {
+   it('should create image from a node on aws-ec2', function(done) {
       var settings = {
          regionContext: regionContext,
          imageParams: {
