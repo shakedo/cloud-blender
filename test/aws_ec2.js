@@ -400,14 +400,14 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it('add security group', function(done) {
+   it('create security group', function(done) {
       var settings = {
-         removeOld: true,  //remove old group by same name if exists , before recreating
+         removeOld: true,  //remove old group with same name if exists, before creating new one
          regionContext: regionContext,
          securityGroups:[
             {
                groupName: 'cloud-blender-unit-test-security-group-1',
-               groupDescription: 'cloud-blender-unit-test-security-group-description',
+               groupDescription: 'cloud-blender-unit-test-security-group-description-1',
                ingressRules:[{
                   fromPort: 22,
                   toPort: 22,
@@ -420,7 +420,7 @@ describe('checking aws-ec2 atomic lib', function() {
             },
             {
                groupName: 'cloud-blender-unit-test-security-group-2',
-               groupDescription: 'cloud-blender-unit-test-security-group-description',
+               groupDescription: 'cloud-blender-unit-test-security-group-description-2',
                ingressRules:[{
                   fromPort: 22,
                   toPort: 22,
@@ -436,9 +436,9 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it('add key pair', function(done) {
+   it('create key pair', function(done) {
       var settings = {
-         removeOld: true,  //remove old group by same name if exists , before recreating
+         removeOld: true,  //remove old keyPair with same name if exists, before creating new one
          regionContext: regionContext,
          keyPairs:[
             {
