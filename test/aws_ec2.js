@@ -400,4 +400,40 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
+   it.only('add security group', function(done) {
+      var settings = {
+         removeOld: true,  //remove old group by same name if exists , before recreating
+         regionContext: regionContext,
+         securityGroups:[
+            {
+               groupName: 'cloud-blender-unit-test-security-group-1',
+               groupDescription: 'cloud-blender-unit-test-security-group-description',
+               ingressRules:[{
+                  fromPort: 22,
+                  toPort: 22,
+                  ipRange: 'all'
+               },{
+                  fromPort: 3333,
+                  toPort: 3335,
+                  ipRange: '198.51.100.0/24'
+               }]
+            },
+            {
+               groupName: 'cloud-blender-unit-test-security-group-2',
+               groupDescription: 'cloud-blender-unit-test-security-group-description',
+               ingressRules:[{
+                  fromPort: 22,
+                  toPort: 22,
+                  ipRange: 'all'
+               }]
+            }
+         ]
+      };
+      this.timeout(30000);
+      ec2.configureAccount(settings, function(error) {
+         should.not.exist(error);
+         done();
+      });
+   });
+
 });
