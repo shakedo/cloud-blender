@@ -383,4 +383,21 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
+   it('check valid credentials with IAM credentials returning AccessDenied', function(done) {
+      var settings = {
+         accountId :   awsEast1Settings.accountId,
+         credentials: {
+            "accessKeyId": awsEast1Settings.iamCredentialsNoGetUserPermissions.accessKey,
+            "secretAccessKey": awsEast1Settings.iamCredentialsNoGetUserPermissions.secretKey
+
+         }
+      };
+      this.timeout(10000);
+      ec2.validateCredentials(settings, function(error, result) {
+         should.not.exist(error);
+         result.should.be.equal(0); //credentials match
+         done();
+      });
+   });
+
 });
