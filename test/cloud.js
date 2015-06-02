@@ -67,7 +67,8 @@ describe('cloud management tests', function() {
                                                createdImageId: '',
                                                keyName: 'storm-east1', // private key - please create your own
                                                imageId: 'ami-d0f89fb9', // public ubuntu 12.04 i686 on aws east-1
-                                               instanceType: 't1.micro'
+                                               instanceType: 't1.micro',
+                                               accountId: awsUSEast1Settings.accountId
    });
    underscore.each(regionsSettings, function(region) {
       it('should create nodes on ' + region.regionContext.providerName, function(done) {
@@ -357,7 +358,9 @@ describe('cloud management tests', function() {
 
       it('should validate credentials ' + region.regionContext.providerName, function(done) {
          var settings = {
-            regionContext: region.regionContext
+            providerName: region.regionContext.providerName,
+            accountId :   region.accountId,
+            credentials: region.regionContext.identitySettings.credentials
          };
 
          this.timeout(10000);
@@ -367,7 +370,7 @@ describe('cloud management tests', function() {
             if(region.regionContext.providerName === 'aws')
             {
                should.not.exist(error);
-               result.should.be.true;
+               result.should.be.equal(0);
             }
             else{
                should.exist(error);
@@ -378,4 +381,9 @@ describe('cloud management tests', function() {
 
 
    }); // each region
+
+   //
+
+
+
 }); // describe

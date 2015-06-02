@@ -26,6 +26,7 @@ if (execCloudTests !== 'true') {
    return;
 }
 
+
 describe('checking aws-ec2 atomic lib', function() {
 
    var g_node = '',
@@ -333,44 +334,68 @@ describe('checking aws-ec2 atomic lib', function() {
 
    it('check credential validation', function(done) {
       var settings = {
-         regionContext: ec2.createRegionContext(awsEast1Settings)
+         accountId :   awsEast1Settings.accountId,
+         credentials: {
+            "accessKeyId": awsEast1Settings.accessKey,
+            "secretAccessKey": awsEast1Settings.secretKey
+
+         }
       };
       this.timeout(10000);
       ec2.validateCredentials(settings, function(error, result) {
          should.not.exist(error);
-         result.should.be.true;
+         result.should.be.equal(0); //0 means validation success
          done();
       });
    });
 
-   it('check invalid credential validation', function(done) {
+   it('check mismatch between account Id and security credentials', function(done) {
       var settings = {
-         regionContext: ec2.createRegionContext({
-            "accessKey": "Dummy Access Key",
-            "secretKey": "Dummy Secret Key",
-            "region": "us-east-1"
-         })
+         accountId :   '123456789012', //give a different account
+         credentials: {
+            "accessKeyId": awsEast1Settings.accessKey,
+            "secretAccessKey": awsEast1Settings.secretKey
+
+         }
       };
       this.timeout(10000);
       ec2.validateCredentials(settings, function(error, result) {
          should.not.exist(error);
-         result.should.be.false;
+         result.should.be.equal(-1); //credentials Ok but account does not match.
          done();
       });
    });
 
-   //errors other than valid credentils (e.g. wrong region etc)
-   it('check other error credential validation', function(done) {
+   it('check invalid security credentials', function(done) {
       var settings = {
-         regionContext: ec2.createRegionContext({
-            "accessKey": "Dummy Access Key",
-            "secretKey": "Dummy Secret Key",
-            "region": "dummy region"
-         })
+         accountId :   awsEast1Settings.accountId,
+         credentials: {
+            "accessKeyId": 'ABCDEFGHIJ1234567890',
+            "secretAccessKey": awsEast1Settings.secretKey
+
+         }
       };
       this.timeout(10000);
-      ec2.validateCredentials(settings, function(error) {
-         should.exist(error);
+      ec2.validateCredentials(settings, function(error, result) {
+         should.not.exist(error);
+         result.should.be.equal(-2); //-2 means security credentials are wrong
+         done();
+      });
+   });
+
+   it('check valid credentials with IAM credentials returning AccessDenied', function(done) {
+      var settings = {
+         accountId :   awsEast1Settings.accountId,
+         credentials: {
+            "accessKeyId": awsEast1Settings.iamCredentialsNoGetUserPermissions.accessKey,
+            "secretAccessKey": awsEast1Settings.iamCredentialsNoGetUserPermissions.secretKey
+
+         }
+      };
+      this.timeout(10000);
+      ec2.validateCredentials(settings, function(error, result) {
+         should.not.exist(error);
+         result.should.be.equal(0); //credentials match
          done();
       });
    });
