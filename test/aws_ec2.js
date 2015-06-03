@@ -409,8 +409,7 @@ describe('checking aws-ec2 atomic lib', function() {
                groupName: 'cloud-blender-unit-test-security-group-1',
                groupDescription: 'cloud-blender-unit-test-security-group-description-1',
                ingressRules:[{
-                  fromPort: 22,
-                  toPort: 22,
+                  port: 22, //single port
                   ipRange: 'all'
                },{
                   fromPort: 3333,
@@ -422,8 +421,7 @@ describe('checking aws-ec2 atomic lib', function() {
                groupName: 'cloud-blender-unit-test-security-group-2',
                groupDescription: 'cloud-blender-unit-test-security-group-description-2',
                ingressRules:[{
-                  fromPort: 22,
-                  toPort: 22,
+                  port: 1947,
                   ipRange: 'all'
                }]
             }
@@ -458,7 +456,7 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it('configure account', function(done) {
+   it.only('configure account', function(done) {
       var settings = {
          removeOld: true,  //remove old group by same name if exists , before recreating
          regionContext: regionContext,
@@ -467,8 +465,7 @@ describe('checking aws-ec2 atomic lib', function() {
                groupName: 'cloud-blender-unit-test-security-group-1',
                groupDescription: 'cloud-blender-unit-test-security-group-description',
                ingressRules:[{
-                  fromPort: 22,
-                  toPort: 22,
+                  port: 22,
                   ipRange: 'all'
                },{
                   fromPort: 3333,
@@ -480,8 +477,7 @@ describe('checking aws-ec2 atomic lib', function() {
                groupName: 'cloud-blender-unit-test-security-group-2',
                groupDescription: 'cloud-blender-unit-test-security-group-description',
                ingressRules:[{
-                  fromPort: 22,
-                  toPort: 22,
+                  port: 1947,
                   ipRange: 'all'
                }]
             }
