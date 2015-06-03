@@ -400,4 +400,109 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
+   it('create security group', function(done) {
+      var settings = {
+         removeOld: true,  //remove old group with same name if exists, before creating new one
+         regionContext: regionContext,
+         securityGroups:[
+            {
+               groupName: 'cloud-blender-unit-test-security-group-1',
+               groupDescription: 'cloud-blender-unit-test-security-group-description-1',
+               ingressRules:[{
+                  fromPort: 22,
+                  toPort: 22,
+                  ipRange: 'all'
+               },{
+                  fromPort: 3333,
+                  toPort: 3335,
+                  ipRange: '198.51.100.0/24'
+               }]
+            },
+            {
+               groupName: 'cloud-blender-unit-test-security-group-2',
+               groupDescription: 'cloud-blender-unit-test-security-group-description-2',
+               ingressRules:[{
+                  fromPort: 22,
+                  toPort: 22,
+                  ipRange: 'all'
+               }]
+            }
+         ]
+      };
+      this.timeout(30000);
+      ec2.createSecurityGroups(settings, function(error) {
+         should.not.exist(error);
+         done();
+      });
+   });
+
+   it('create key pair', function(done) {
+      var settings = {
+         removeOld: true,  //remove old keyPair with same name if exists, before creating new one
+         regionContext: regionContext,
+         keyPairs:[
+            {
+               name: 'cloud-blender-unit-test-key-pair-1',
+               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
+            },
+            {
+               name: 'cloud-blender-unit-test-key-pair-2',
+               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
+            }
+         ]
+      };
+      this.timeout(30000);
+      ec2.createKeyPairs(settings, function(error) {
+         should.not.exist(error);
+         done();
+      });
+   });
+
+   it('configure account', function(done) {
+      var settings = {
+         removeOld: true,  //remove old group by same name if exists , before recreating
+         regionContext: regionContext,
+         securityGroups:[
+            {
+               groupName: 'cloud-blender-unit-test-security-group-1',
+               groupDescription: 'cloud-blender-unit-test-security-group-description',
+               ingressRules:[{
+                  fromPort: 22,
+                  toPort: 22,
+                  ipRange: 'all'
+               },{
+                  fromPort: 3333,
+                  toPort: 3335,
+                  ipRange: '198.51.100.0/24'
+               }]
+            },
+            {
+               groupName: 'cloud-blender-unit-test-security-group-2',
+               groupDescription: 'cloud-blender-unit-test-security-group-description',
+               ingressRules:[{
+                  fromPort: 22,
+                  toPort: 22,
+                  ipRange: 'all'
+               }]
+            }
+         ],
+         keyPairs:[
+            {
+               name: 'cloud-blender-unit-test-key-pair-1',
+               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
+            },
+            {
+               name: 'cloud-blender-unit-test-key-pair-2',
+               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
+            }
+         ]
+
+      };
+      this.timeout(50000);
+      ec2.configureAccount(settings, function(error) {
+         should.not.exist(error);
+         done();
+      });
+   });
+
 });
