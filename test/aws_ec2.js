@@ -445,7 +445,7 @@ describe('checking aws-ec2 atomic lib', function() {
             },
             {
                name: 'cloud-blender-unit-test-key-pair-2',
-               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
+               publicKey: awsEast1Settings.keyPairPublicKey
             }
          ]
       };
@@ -456,7 +456,7 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it.only('configure account', function(done) {
+   it('configure account', function(done) {
       var settings = {
          removeOld: true,  //remove old group by same name if exists , before recreating
          regionContext: regionContext,
@@ -489,7 +489,7 @@ describe('checking aws-ec2 atomic lib', function() {
             },
             {
                name: 'cloud-blender-unit-test-key-pair-2',
-               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
+               publicKey: awsEast1Settings.keyPairPublicKey
             }
          ]
 
