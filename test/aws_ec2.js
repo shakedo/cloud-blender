@@ -443,11 +443,11 @@ describe('checking aws-ec2 atomic lib', function() {
          keyPairs:[
             {
                name: 'cloud-blender-unit-test-key-pair-1',
-               publicKeyBase64: awsEast1Settings.keyPairPublicKeyBase64
+               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
             },
             {
                name: 'cloud-blender-unit-test-key-pair-2',
-               publicKeyBase64: awsEast1Settings.keyPairPublicKeyBase64
+               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
             }
          ]
       };
@@ -489,11 +489,11 @@ describe('checking aws-ec2 atomic lib', function() {
          keyPairs:[
             {
                name: 'cloud-blender-unit-test-key-pair-1',
-               publicKeyBase64: awsEast1Settings.keyPairPublicKeyBase64
+               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
             },
             {
                name: 'cloud-blender-unit-test-key-pair-2',
-               publicKeyBase64: awsEast1Settings.keyPairPublicKeyBase64
+               publicKeyBase64: new Buffer(awsEast1Settings.keyPairPublicKey).toString("base64")
             }
          ]
 
