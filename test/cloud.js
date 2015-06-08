@@ -6,6 +6,7 @@ var should = require('should'),
    hpcsUSWest_13_5_Settings = require('../examples/hpcs_uswest_13_5'),
    azure_Settings = require('../examples/azure'),
    cloud = require('../lib/cloud.js'),
+   CBErrorCodes = require('../lib/cb-error-codes'),
    azureConfig = require('../examples/azure.json');
 
 // in the form of http://proxy.com:8080 - change to your own proxy
@@ -17,7 +18,7 @@ if (execCloudTests !== 'true') {
    return;
 }
 
-describe('cloud management tests', function() {
+describe.only('cloud management tests', function() {
 
    var regionsSettings = [],
       regionLimitsConfiguration = {
@@ -29,6 +30,7 @@ describe('cloud management tests', function() {
       regionAuthSettings = azureConfig,
       regionLimits = {maxRolesPerService: 2};
 
+/*
    regionsSettings.push({
       regionContext: cloud.createRegionContext(providerName,
                                                regionAuthSettings ,
@@ -60,6 +62,7 @@ describe('cloud management tests', function() {
                                                instanceType: 100 // standard.xsmall
    });
 
+*/
    regionsSettings.push({
       regionContext: cloud.createRegionContext('aws', awsUSEast1Settings,
                                                regionLimitsConfiguration),
@@ -378,6 +381,89 @@ describe('cloud management tests', function() {
             done();
          });
       });
+
+      it('should add launch permissions to multiple images ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageIds: ['ami-bca4a8d4', 'ami-f4737b9c'],  //a special image (plain ubuntu)created in advance for unit tests
+            accountIds: ['000000000000','000000000001', '000000000002'] //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
+         };
+
+         this.timeout(10000);
+
+         cloud.addLaunchPermissions(settings, function(error, result) {
+            //only supported in aws for now so other providers must return error
+            if(region.regionContext.providerName === 'aws')
+            {
+               should.not.exist(error);
+               underscore.size(result).should.be.equal(2);
+               should.exist(result['ami-bca4a8d4']);
+               should.exist(result['ami-f4737b9c']);
+            }
+            else{
+               should.exist(error);
+            }
+            done();
+         });
+      });
+
+      it('should remove launch permissions to multiple images ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageIds: ['ami-bca4a8d4', 'ami-f4737b9c'],  //a special image (plain ubuntu)created in advance for unit tests
+            accountIds: ['000000000000','000000000001', '000000000002'] //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
+         };
+
+         this.timeout(10000);
+
+         cloud.removeLaunchPermissions(settings, function(error, result) {
+            //only supported in aws for now so other providers must return error
+            if(region.regionContext.providerName === 'aws')
+            {
+               should.not.exist(error);
+               underscore.size(result).should.be.equal(2);
+               should.exist(result['ami-bca4a8d4']);
+               should.exist(result['ami-f4737b9c']);
+            }
+            else{
+               should.exist(error);
+            }
+            done();
+         });
+      });
+
+      it('check multiple error response ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageIds: ['ami-xxx', 'ami-yyy'],  //a special image (plain ubuntu)created in advance for unit tests
+            accountIds: ['000000000000']
+         },subError;
+
+         this.timeout(100000);
+
+         cloud.removeLaunchPermissions(settings, function(error, result) {
+            //only supported in aws for now so other providers must return error
+            if(region.regionContext.providerName === 'aws')
+            {
+               should.exist(error);
+               error.length.should.be.equal(2);
+               subError = error.getErrorById('ami-xxx');
+               subError.cbErrorCode === CBErrorCodes.IMAGE_NOT_FOUND;
+               error.getErrorById('ami-yyy').cbErrorCode === CBErrorCodes.IMAGE_NOT_FOUND;
+               error.isFatal.should.be.true;
+               error.details.should.be.an.instanceof(Array);
+               error.details.length.should.be.equal(2);
+               should.exist(subError.providerErrorCode);
+               should.exist(subError.providerErrorMessage);
+
+            }
+            else{
+               should.exist(error);
+            }
+            done();
+         });
+      });
+
 
 
    }); // each region
