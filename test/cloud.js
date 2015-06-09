@@ -154,7 +154,6 @@ describe('cloud management tests', function() {
          this.timeout(360000);
          cloud.createNodes(settings, function(error, result) {
             should.exist(error);
-            error.length.should.be.equal(1);
             error.cbErrorCode.should.be.equal(CBErrorCodes.IMAGE_NOT_FOUND);
             done();
          });
