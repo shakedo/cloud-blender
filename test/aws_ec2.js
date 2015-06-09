@@ -149,7 +149,7 @@ describe('checking aws-ec2 atomic lib', function() {
             }
          }
       },
-      waitInterval = 80000;
+      waitInterval = 400000;
 
       this.timeout(waitInterval+10000);
 
@@ -172,7 +172,7 @@ describe('checking aws-ec2 atomic lib', function() {
          regionContext: regionContext
       };
 
-      this.timeout(30000);
+      this.timeout(100000);
 
       ec2.listImages(settings, function(error, result) {
          should.not.exist(error);

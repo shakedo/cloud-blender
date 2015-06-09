@@ -12,13 +12,14 @@ var should = require('should'),
 // in the form of http://proxy.com:8080 - change to your own proxy
 cloud.setProxy(process.env.TUNNELING_PROXY);
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+var singleProvider = process.env.SINGLE_PROVIDER_CLOUD_UT;
 
 
 if (execCloudTests !== 'true') {
    return;
 }
 
-describe.only('cloud management tests', function() {
+describe('cloud management tests', function() {
 
    var regionsSettings = [],
       regionLimitsConfiguration = {
@@ -26,12 +27,16 @@ describe.only('cloud management tests', function() {
         deleteRatePerMinute: 60
       };
 
+   function addProvider(settings){
+      if(!singleProvider || singleProvider === settings.regionContext.providerName){
+         regionsSettings.push(settings);
+      }
+   }
    var providerName = 'azure',
       regionAuthSettings = azureConfig,
       regionLimits = {maxRolesPerService: 2};
 
-/*
-   regionsSettings.push({
+   addProvider({
       regionContext: cloud.createRegionContext(providerName,
                                                regionAuthSettings ,
                                                regionLimits
@@ -42,7 +47,7 @@ describe.only('cloud management tests', function() {
                                               instanceType: 'Basic_A0' // standard.xsmall
    });
 
-   regionsSettings.push({
+   addProvider({
       regionContext: cloud.createRegionContext('hpcs_13_5', hpcsUSWest_13_5_Settings,
                                                regionLimitsConfiguration),
                                                nodes: [],
@@ -52,7 +57,7 @@ describe.only('cloud management tests', function() {
                                                instanceType: 100 // standard.xsmall
    });
 
-   regionsSettings.push({
+   addProvider({
       regionContext: cloud.createRegionContext('hpcs', hpcsUSWestAz2Settings,
                                                regionLimitsConfiguration),
                                                nodes: [],
@@ -62,8 +67,7 @@ describe.only('cloud management tests', function() {
                                                instanceType: 100 // standard.xsmall
    });
 
-*/
-   regionsSettings.push({
+   addProvider({
       regionContext: cloud.createRegionContext('aws', awsUSEast1Settings,
                                                regionLimitsConfiguration),
                                                nodes: [],
@@ -150,6 +154,8 @@ describe.only('cloud management tests', function() {
          this.timeout(360000);
          cloud.createNodes(settings, function(error, result) {
             should.exist(error);
+            error.length.should.be.equal(1);
+            error.cbErrorCode.should.be.equal(CBErrorCodes.IMAGE_NOT_FOUND);
             done();
          });
       });
@@ -197,8 +203,7 @@ describe.only('cloud management tests', function() {
             }
          };
 
-         this.timeout(90000);
-
+         this.timeout(400000);
 
          cloud.createImage(settings, function(error, result) {
 
@@ -224,6 +229,7 @@ describe.only('cloud management tests', function() {
 
          cloud.createImage(settings, function(error, result) {
             should.exist(error);
+            error.isFatal.should.be.true;
             done();
          });
       });
@@ -280,9 +286,9 @@ describe.only('cloud management tests', function() {
          //console.log('from test: ' + JSON.stringify(settings, null, '   '));
 
          this.timeout(50000);
-         cloud.deleteImage(settings, function(error, result) {
+         cloud.deleteImage(settings, function(error) {
             should.exist(error);
-            //            console.log(result);
+            error.cbErrorCode.should.equal(CBErrorCodes.IMAGE_NOT_FOUND);
             done();
          });
       });
@@ -448,8 +454,8 @@ describe.only('cloud management tests', function() {
                should.exist(error);
                error.length.should.be.equal(2);
                subError = error.getErrorById('ami-xxx');
-               subError.cbErrorCode === CBErrorCodes.IMAGE_NOT_FOUND;
-               error.getErrorById('ami-yyy').cbErrorCode === CBErrorCodes.IMAGE_NOT_FOUND;
+               subError.cbErrorCode.should.be.equal(CBErrorCodes.IMAGE_NOT_FOUND);
+               error.getErrorById('ami-yyy').cbErrorCode.should.be.equal(CBErrorCodes.IMAGE_NOT_FOUND);
                error.isFatal.should.be.true;
                error.details.should.be.an.instanceof(Array);
                error.details.length.should.be.equal(2);
