@@ -1,6 +1,7 @@
 var should = require('should'),
    underscore = require('underscore'),
    execCloudTests = process.env.EXEC_CLOUD_TESTS,
+   CBErrorCodes = require('../lib/cb-error-codes'),
    awsEast1Settings = require('../examples/aws_east_1'),
    ec2 = require('../lib/aws_ec2.js');
 
@@ -25,7 +26,6 @@ describe('checking aws-ec2 local atomic lib', function() {
 if (execCloudTests !== 'true') {
    return;
 }
-
 
 describe('checking aws-ec2 atomic lib', function() {
 
@@ -149,7 +149,7 @@ describe('checking aws-ec2 atomic lib', function() {
             }
          }
       },
-      waitInterval = 80000;
+      waitInterval = 400000;
 
       this.timeout(waitInterval+10000);
 
@@ -172,7 +172,7 @@ describe('checking aws-ec2 atomic lib', function() {
          regionContext: regionContext
       };
 
-      this.timeout(30000);
+      this.timeout(100000);
 
       ec2.listImages(settings, function(error, result) {
          should.not.exist(error);
@@ -317,20 +317,30 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it('check provider error handling', function(done) {
+   it('test provider error handling', function(done) {
       var settings = {
          regionContext: regionContext,
-         imageId: 'bad id'
+         imageId: 'ami-xxxx'
       };
+
       this.timeout(10000);
-      ec2.getLaunchPermissions(settings, function(error, result) { //add launch permissions
+      ec2.resetLaunchPermissions(settings, function(error, result) { //add launch permissions
          should.exist(error);
-         should.exist(error.isFatal);
-         should.exist(error.providerDetails);
+         error.name.should.equal('AWSError');
+         error.constructor.name.should.equal('AWSError');
+         error.should.be.an.instanceof(Error);
+         should.exist(error.details);
+         error.errorList.length.should.equal(1);
+         should.exist(error.getCallbackError());
+         error.providerErrorCode.should.equal('InvalidAMIID.Malformed');
+         error.providerErrorMessage.should.equal('Invalid id: "ami-xxxx"');
+         error.cbErrorCode.should.equal(CBErrorCodes.IMAGE_NOT_FOUND);
          error.isFatal.should.be.true;
+         error.provider.should.equal('aws');
          done();
       });
    });
+
 
    it('check credential validation', function(done) {
       var settings = {

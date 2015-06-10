@@ -6,11 +6,13 @@ var should = require('should'),
    hpcsUSWest_13_5_Settings = require('../examples/hpcs_uswest_13_5'),
    azure_Settings = require('../examples/azure'),
    cloud = require('../lib/cloud.js'),
+   CBErrorCodes = require('../lib/cb-error-codes'),
    azureConfig = require('../examples/azure.json');
 
 // in the form of http://proxy.com:8080 - change to your own proxy
 cloud.setProxy(process.env.TUNNELING_PROXY);
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+var singleProvider = process.env.SINGLE_PROVIDER_CLOUD_UT;
 
 
 if (execCloudTests !== 'true') {
@@ -25,11 +27,16 @@ describe('cloud management tests', function() {
         deleteRatePerMinute: 60
       };
 
+   function addProvider(settings){
+      if(!singleProvider || singleProvider === settings.regionContext.providerName){
+         regionsSettings.push(settings);
+      }
+   }
    var providerName = 'azure',
       regionAuthSettings = azureConfig,
       regionLimits = {maxRolesPerService: 2};
 
-   regionsSettings.push({
+   addProvider({
       regionContext: cloud.createRegionContext(providerName,
                                                regionAuthSettings ,
                                                regionLimits
@@ -40,7 +47,7 @@ describe('cloud management tests', function() {
                                               instanceType: 'Basic_A0' // standard.xsmall
    });
 
-   regionsSettings.push({
+   addProvider({
       regionContext: cloud.createRegionContext('hpcs_13_5', hpcsUSWest_13_5_Settings,
                                                regionLimitsConfiguration),
                                                nodes: [],
@@ -50,7 +57,7 @@ describe('cloud management tests', function() {
                                                instanceType: 100 // standard.xsmall
    });
 
-   regionsSettings.push({
+   addProvider({
       regionContext: cloud.createRegionContext('hpcs', hpcsUSWestAz2Settings,
                                                regionLimitsConfiguration),
                                                nodes: [],
@@ -60,7 +67,7 @@ describe('cloud management tests', function() {
                                                instanceType: 100 // standard.xsmall
    });
 
-   regionsSettings.push({
+   addProvider({
       regionContext: cloud.createRegionContext('aws', awsUSEast1Settings,
                                                regionLimitsConfiguration),
                                                nodes: [],
@@ -147,6 +154,7 @@ describe('cloud management tests', function() {
          this.timeout(360000);
          cloud.createNodes(settings, function(error, result) {
             should.exist(error);
+            error.cbErrorCode.should.be.equal(CBErrorCodes.IMAGE_NOT_FOUND);
             done();
          });
       });
@@ -194,8 +202,7 @@ describe('cloud management tests', function() {
             }
          };
 
-         this.timeout(90000);
-
+         this.timeout(400000);
 
          cloud.createImage(settings, function(error, result) {
 
@@ -221,6 +228,7 @@ describe('cloud management tests', function() {
 
          cloud.createImage(settings, function(error, result) {
             should.exist(error);
+            error.isFatal.should.be.true;
             done();
          });
       });
@@ -277,9 +285,9 @@ describe('cloud management tests', function() {
          //console.log('from test: ' + JSON.stringify(settings, null, '   '));
 
          this.timeout(50000);
-         cloud.deleteImage(settings, function(error, result) {
+         cloud.deleteImage(settings, function(error) {
             should.exist(error);
-            //            console.log(result);
+            error.cbErrorCode.should.equal(CBErrorCodes.IMAGE_NOT_FOUND);
             done();
          });
       });
@@ -378,6 +386,89 @@ describe('cloud management tests', function() {
             done();
          });
       });
+
+      it('should add launch permissions to multiple images ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageIds: ['ami-bca4a8d4', 'ami-f4737b9c'],  //a special image (plain ubuntu)created in advance for unit tests
+            accountIds: ['000000000000','000000000001', '000000000002'] //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
+         };
+
+         this.timeout(10000);
+
+         cloud.addLaunchPermissions(settings, function(error, result) {
+            //only supported in aws for now so other providers must return error
+            if(region.regionContext.providerName === 'aws')
+            {
+               should.not.exist(error);
+               underscore.size(result).should.be.equal(2);
+               should.exist(result['ami-bca4a8d4']);
+               should.exist(result['ami-f4737b9c']);
+            }
+            else{
+               should.exist(error);
+            }
+            done();
+         });
+      });
+
+      it('should remove launch permissions to multiple images ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageIds: ['ami-bca4a8d4', 'ami-f4737b9c'],  //a special image (plain ubuntu)created in advance for unit tests
+            accountIds: ['000000000000','000000000001', '000000000002'] //seems that launch permissions works for any account Id that contains 12 digits even if it is not a real account.
+         };
+
+         this.timeout(10000);
+
+         cloud.removeLaunchPermissions(settings, function(error, result) {
+            //only supported in aws for now so other providers must return error
+            if(region.regionContext.providerName === 'aws')
+            {
+               should.not.exist(error);
+               underscore.size(result).should.be.equal(2);
+               should.exist(result['ami-bca4a8d4']);
+               should.exist(result['ami-f4737b9c']);
+            }
+            else{
+               should.exist(error);
+            }
+            done();
+         });
+      });
+
+      it('check multiple error response ' + region.regionContext.providerName, function(done) {
+         var settings = {
+            regionContext: region.regionContext,
+            imageIds: ['ami-xxx', 'ami-yyy'],  //a special image (plain ubuntu)created in advance for unit tests
+            accountIds: ['000000000000']
+         },subError;
+
+         this.timeout(100000);
+
+         cloud.removeLaunchPermissions(settings, function(error, result) {
+            //only supported in aws for now so other providers must return error
+            if(region.regionContext.providerName === 'aws')
+            {
+               should.exist(error);
+               error.length.should.be.equal(2);
+               subError = error.getErrorById('ami-xxx');
+               subError.cbErrorCode.should.be.equal(CBErrorCodes.IMAGE_NOT_FOUND);
+               error.getErrorById('ami-yyy').cbErrorCode.should.be.equal(CBErrorCodes.IMAGE_NOT_FOUND);
+               error.isFatal.should.be.true;
+               error.details.should.be.an.instanceof(Array);
+               error.details.length.should.be.equal(2);
+               should.exist(subError.providerErrorCode);
+               should.exist(subError.providerErrorMessage);
+
+            }
+            else{
+               should.exist(error);
+            }
+            done();
+         });
+      });
+
 
 
    }); // each region
