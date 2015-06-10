@@ -336,6 +336,9 @@ describe('checking aws-ec2 atomic lib', function() {
          error.providerErrorMessage.should.equal('Invalid id: "ami-xxxx"');
          error.cbErrorCode.should.equal(CBErrorCodes.IMAGE_NOT_FOUND);
          error.isFatal.should.be.true;
+         error.getFirstFatalError().cbErrorCode.should.be.equal(CBErrorCodes.IMAGE_NOT_FOUND);
+         error.getAllFatalErrors().length.should.be.equal(1);
+         error.getAllFatalErrors()[0].should.equal(error.getFirstFatalError())
          error.provider.should.equal('aws');
          done();
       });
