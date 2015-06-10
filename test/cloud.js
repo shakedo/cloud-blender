@@ -442,7 +442,7 @@ describe('cloud management tests', function() {
             regionContext: region.regionContext,
             imageIds: ['ami-xxx', 'ami-yyy'],  //a special image (plain ubuntu)created in advance for unit tests
             accountIds: ['000000000000']
-         },subError;
+         },subError,firstFatal;
 
          this.timeout(100000);
 
@@ -458,6 +458,10 @@ describe('cloud management tests', function() {
                error.isFatal.should.be.true;
                error.details.should.be.an.instanceof(Array);
                error.details.length.should.be.equal(2);
+               error.getAllFatalErrors().length.should.equal(2);
+               firstFatal = error.getFirstFatalError();
+               error.getAllFatalErrors()[0].should.equal(firstFatal);
+               (firstFatal.id === 'ami-yyy' || firstFatal.id === 'ami-xxx').should.be.true;
                should.exist(subError.providerErrorCode);
                should.exist(subError.providerErrorMessage);
 
