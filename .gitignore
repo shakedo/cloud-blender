@@ -2,6 +2,7 @@ node_modules/*
 *.swp
 *.swo
 *.iml
+.npmrc
 static-analysis/*
 examples/config.json
 examples/hpcs_uswest_az2.json
