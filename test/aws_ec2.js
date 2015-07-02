@@ -507,8 +507,19 @@ describe('checking aws-ec2 atomic lib', function() {
          ]
 
       };
-      this.timeout(50000);
+      this.timeout(20000);
       ec2.configureAccount(settings, function(error) {
+         should.not.exist(error);
+         done();
+      });
+   });
+
+   it.only('get Addresses', function(done) {
+      var settings = {
+         regionContext: regionContext
+      };
+      this.timeout(60000);
+      ec2.getAddresses(settings, function(error, results){
          should.not.exist(error);
          done();
       });
