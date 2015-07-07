@@ -514,7 +514,7 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it.only('get Addresses', function(done) {
+   it('get Addresses', function(done) {
       var settings = {
          regionContext: regionContext
       };
