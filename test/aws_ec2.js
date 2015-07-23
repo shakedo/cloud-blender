@@ -345,7 +345,7 @@ describe('checking aws-ec2 atomic lib', function() {
    });
 
 
-   it('check credential validation', function(done) {
+   it('check root credential validation', function(done) {
       var settings = {
          accountId :   awsEast1Settings.accountId,
          credentials: {
@@ -361,6 +361,41 @@ describe('checking aws-ec2 atomic lib', function() {
          done();
       });
    });
+
+   it('check iam credential validation with iam:GetUser policy', function(done) {
+      var settings = {
+         accountId :   awsEast1Settings.accountId,
+         credentials: {
+            "accessKeyId": awsEast1Settings.iamCredentialsWithGetUserPermissions.accessKey,
+            "secretAccessKey": awsEast1Settings.iamCredentialsWithGetUserPermissions.secretKey
+
+         }
+      };
+      this.timeout(10000);
+      ec2.validateCredentials(settings, function(error, result) {
+         should.not.exist(error);
+         result.should.be.equal(0); //0 means validation success
+         done();
+      });
+   });
+
+   it('check iam credential validation without permissions to call iam:GetUser and still should work', function(done) {
+      var settings = {
+         accountId :   awsEast1Settings.accountId,
+         credentials: {
+            "accessKeyId": awsEast1Settings.iamCredentialsNoGetUserPermissions.accessKey,
+            "secretAccessKey": awsEast1Settings.iamCredentialsNoGetUserPermissions.secretKey
+
+         }
+      };
+      this.timeout(10000);
+      ec2.validateCredentials(settings, function(error, result) {
+         should.not.exist(error);
+         result.should.be.equal(0); //credentials match
+         done();
+      });
+   });
+
 
    it('check mismatch between account Id and security credentials', function(done) {
       var settings = {
@@ -396,24 +431,7 @@ describe('checking aws-ec2 atomic lib', function() {
       });
    });
 
-   it('check valid credentials with IAM credentials returning AccessDenied', function(done) {
-      var settings = {
-         accountId :   awsEast1Settings.accountId,
-         credentials: {
-            "accessKeyId": awsEast1Settings.iamCredentialsNoGetUserPermissions.accessKey,
-            "secretAccessKey": awsEast1Settings.iamCredentialsNoGetUserPermissions.secretKey
-
-         }
-      };
-      this.timeout(10000);
-      ec2.validateCredentials(settings, function(error, result) {
-         should.not.exist(error);
-         result.should.be.equal(0); //credentials match
-         done();
-      });
-   });
-
-   it('create security group', function(done) {
+  it('create security group', function(done) {
       var settings = {
          removeOld: true,  //remove old group with same name if exists, before creating new one
          regionContext: regionContext,
