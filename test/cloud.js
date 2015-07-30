@@ -7,7 +7,8 @@ var should = require('should'),
    azure_Settings = require('../examples/azure'),
    cloud = require('../lib/cloud.js'),
    CBErrorCodes = require('../lib/cb-error-codes'),
-   azureConfig = require('../examples/azure.json');
+   azureConfig = require('../examples/azure.json'),
+   rackspace = require('../examples/rackspace.json');
 
 // in the form of http://proxy.com:8080 - change to your own proxy
 cloud.setProxy(process.env.TUNNELING_PROXY);
@@ -23,12 +24,12 @@ describe('cloud management tests', function() {
 
    var regionsSettings = [],
       regionLimitsConfiguration = {
-        postRatePerMinute: 50,
-        deleteRatePerMinute: 60
+         postRatePerMinute: 50,
+         deleteRatePerMinute: 60
       };
 
-   function addProvider(settings){
-      if(!singleProvider || singleProvider === settings.regionContext.providerName){
+   function addProvider(settings) {
+      if (!singleProvider || singleProvider === settings.regionContext.providerName) {
          regionsSettings.push(settings);
       }
    }
@@ -77,6 +78,17 @@ describe('cloud management tests', function() {
                                                instanceType: 't1.micro',
                                                accountId: awsUSEast1Settings.accountId
    });
+
+   addProvider({
+      regionContext: cloud.createRegionContext('rackspace', rackspace,
+         regionLimitsConfiguration),
+      nodes: [],
+      createdImageId: '',
+      keyName: 'oleg', // private key - please create your own
+      imageId: 'ffa476b1-9b14-46bd-99a8-862d1d94eb7a', // public ubuntu 12.04
+      instanceType: '2'
+   });
+
    underscore.each(regionsSettings, function(region) {
       it('should create nodes on ' + region.regionContext.providerName, function(done) {
          var settings = {
@@ -125,9 +137,9 @@ describe('cloud management tests', function() {
             should.exist(result.rawResults);
             underscore.each(nodes, function(node) {
                region.nodes.push(node);
-               should.exist(node.id);
-               should.exist(node.tags);
-               should.exist(node.tags.logicName);
+               should.exist(node.id, 'id should exists');
+               should.exist(node.tags, 'tags should exists');
+               should.exist(node.tags.logicName, 'tags.logicName should exists');
                node.status.should.equal('ACTIVE');
             });
             done();
@@ -135,30 +147,32 @@ describe('cloud management tests', function() {
       });
 
 
-      it('should fail to create nodes from non existed image on ' + region.regionContext.providerName, function(done) {
-         var settings = {
-            regionContext: region.regionContext,
-            nodes: [{
-         imageId: 'not-exist',
-         instanceType: region.instanceType,
-         tags: {
-            description: 'created by cloud blender mocha test',
-            jobId: 'jobId-dummy',
-            logicName: 'createdByStorm2'
-         },
-         userData: {'paramA': 'keyA', 'paramB': 'keyB', 'paramC': 'keyc'},
-         keyName: region.keyName
-            }]
-         };
+   it('should fail to create nodes from non existed image on ' + region.regionContext.providerName, function (done) {
+      var settings = {
+         regionContext: region.regionContext,
+         nodes: [{
+            imageId: 'not-exist',
+            instanceType: region.instanceType,
+            tags: {
+               description: 'created by cloud blender mocha test',
+               jobId: 'jobId-dummy',
+               logicName: 'createdByStorm2'
+            },
+            userData: {'paramA': 'keyA', 'paramB': 'keyB', 'paramC': 'keyc'},
+            keyName: region.keyName
+         }]
+      };
 
-         this.timeout(360000);
-         cloud.createNodes(settings, function(error, result) {
-            should.exist(error);
+      this.timeout(360000);
+      cloud.createNodes(settings, function (error, result) {
+         should.exist(error);
+         if(region.regionContext.providerName === 'aws') {
             error.cbErrorCode.should.be.equal(CBErrorCodes.IMAGE_NOT_FOUND);
-            done();
-         });
+         }
+         done();
       });
-      
+   });
+
       it('should list nodes from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext
@@ -228,7 +242,9 @@ describe('cloud management tests', function() {
 
          cloud.createImage(settings, function(error, result) {
             should.exist(error);
-            error.isFatal.should.be.true;
+            if(region.regionContext.providerName === 'aws'){
+               error.isFatal.should.be.true;
+            }
             done();
          });
       });
@@ -287,7 +303,9 @@ describe('cloud management tests', function() {
          this.timeout(50000);
          cloud.deleteImage(settings, function(error) {
             should.exist(error);
+      if(region.regionContext.providerName === 'aws') {
             error.cbErrorCode.should.equal(CBErrorCodes.IMAGE_NOT_FOUND);
+      }
             done();
          });
       });
@@ -307,7 +325,7 @@ describe('cloud management tests', function() {
             done();
          });
       });
-      
+
       it('should fail to delete not existed nodes from ' + region.regionContext.providerName, function(done) {
          var settings = {
             regionContext: region.regionContext,
@@ -321,48 +339,6 @@ describe('cloud management tests', function() {
             done();
          });
       });
-
-/*
-      it('should associate addresses on ' + region.regionContext.providerName, function(done) {
-         var settings = {
-            regionContext: region.regionContext,
-            associatePairs: [{
-                  instanceId: ids[0],
-                  publicIp: '184.73.164.67'
-               },
-               {
-                  instanceId: ids[1],
-                  publicIp: '54.235.175.55'
-               }]
-            };
-
-         this.timeout(460000);
-
-         cloud.associateAddresses(settings, function(error, result) {
-            var associatePairs = settings.associatePairs;
-            //console.log(associatePairs);
-            should.not.exist(error);
-            should.exist(associatePairs);
-            associatePairs.length.should.equal(settings.associatePairs.length);
-            should.exist(result);
-            done();
-         });
-      });
-
-      it('should disassociate addresses from ' + region.regionContext.providerName, function(done) {
-         var settings = {
-            regionContext: region.regionContext,
-            publicIps: ['184.73.164.67', '54.235.175.55']
-         };
-
-         this.timeout(360000);
-
-         cloud.disassociateAddresses(settings, function(error, result) {
-            should.not.exist(error);
-            should.exist(result);
-            done();
-         });
-      });*/
 
       it('should validate credentials ' + region.regionContext.providerName, function(done) {
          var settings = {
