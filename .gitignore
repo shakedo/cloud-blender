@@ -9,4 +9,5 @@ examples/hpcs_uswest_az2.json
 examples/hpcs_uswest_13_5.json
 examples/aws_east_1.json
 examples/aws_eu_west_1.json
+examples/rackspace.json
 .idea/*
