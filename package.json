@@ -18,7 +18,8 @@
     "test": "node_modules/mocha/bin/mocha -R spec -r should test/cloud.js",
     "test-atomic-hpcs": "node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute.js",
     "test-atomic-hpcs_13_5": "node_modules/mocha/bin/mocha -R spec -r should test/hpcs_compute_13_5.js",
-    "test-atomic-aws": "node_modules/mocha/bin/mocha -R spec -r should test/aws_ec2.js"
+    "test-atomic-aws": "node_modules/mocha/bin/mocha -R spec -r should test/aws_ec2.js",
+    "test-atomic-rackspace": "node_modules/mocha/bin/mocha -R spec -r should test/rackspace.js"
   },
   "keywords": [
     "cloud",
@@ -26,7 +27,8 @@
     "ec2",
     "hpcs",
     "compute",
-    "cross-platform"
+    "cross-platform",
+    "rackspace"
   ],
   "main": "index.js",
   "directories": {
