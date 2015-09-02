@@ -284,7 +284,7 @@ describe('checking azure atomic lib', function () {
     setTimeout(function () {
 
 
-    compute.listImages(settings, function (error, result) {
+    compute.listImages(settings,null,function (error, result) {
 
     if (error) {
     console.log('error get  image list-' + error);

@@ -174,7 +174,7 @@ describe('checking aws-ec2 atomic lib', function() {
 
       this.timeout(100000);
 
-      ec2.listImages(settings, function(error, result) {
+      ec2.listImages(settings,null,function(error, result) {
          should.not.exist(error);
          should.exist(result);
          should.exist(result.images);
