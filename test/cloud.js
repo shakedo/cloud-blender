@@ -256,7 +256,7 @@ describe('cloud management tests', function() {
          };
 
          this.timeout(96000);
-         cloud.listImages(settings, function(error, result) {
+         cloud.listImages(settings,null,function(error, result) {
             var foundImage;
             should.not.exist(error);
             should.exist(result.rawResult);
