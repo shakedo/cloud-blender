@@ -130,7 +130,7 @@ describe('checking rackspace online atomic lib', function() {
 
       this.timeout(20000);
 
-      compute.listImages(settings, function(error, result) {
+      compute.listImages(settings,null, function(error, result) {
          //console.log(JSON.stringify(result.images, null, '   '));
          should.not.exist(error, 'should.not.exist(error)');
          should.exist(result, 'should.exist(result)');
