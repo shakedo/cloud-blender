@@ -101,7 +101,7 @@ var cloud = require('cloud-blender'),
 
 
 ## Current Cloud Providers Support
-The current version supports **HPCS-compute (both 12.12 and 13.5 versions)**, **RackSpace**, **Azure** and **AWS-EC2**.
+The current version supports **HP Helion (both 12.12 and 13.5 versions)**, **Rackspace**, **Azure** and **AWS-EC2**.
 
 
 ## Current Version Supported Operations
