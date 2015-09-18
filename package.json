@@ -26,6 +26,8 @@
     "aws",
     "ec2",
     "hpcs",
+    "helion"
+    "azure"
     "compute",
     "cross-platform",
     "rackspace"
