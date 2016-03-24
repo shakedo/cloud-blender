@@ -3,7 +3,7 @@
   "description": "A high level library for cloud compute operations",
   "version": "0.0.80",
   "dependencies": {
-    "request": "2.52.0",
+    "request": "2.69.0",
     "underscore": "1.4.3",
     "crypto": "0.0.3",
     "xml2js": "0.2.6",
